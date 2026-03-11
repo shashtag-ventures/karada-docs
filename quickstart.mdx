@@ -1,35 +1,81 @@
 ---
-title: "Quickstart"
-description: "Start using Karada in under 5 minutes"
+title: "Quickstart Guide"
+description: "Get started with Karada and deploy your first Auto-MCP server in under 5 minutes."
 ---
 
-## Creating your first Project
+Welcome to Karada! This guide will walk you through the core flow of the platform: creating a project and transforming a standard REST API into an AI-ready Model Context Protocol (MCP) server.
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+1. Created an account on [Karada.ai](https://karada.ai).
+2. A valid OpenAPI or Swagger URL (e.g., `https://api.example.com/openapi.json`). If you don't have one, you can use a public API like the [Petstore API](https://petstore.swagger.io/v2/swagger.json).
+
+---
+
+## Step 1: Create a Workspace and Project
 
 A project in Karada is the top-level container for all your deployments, integrations, and usage tracking.
 
-### 1. Create a Project
+1. Navigate to your **Dashboard**.
+2. If you haven't already, create a new **Team Workspace**.
+3. Click the prominent **Create Project** button in the top right corner.
+4. Select the **Auto-MCP** template from the list of available providers.
+5. Give your project a descriptive name (e.g., `Petstore AI Agent`).
 
-To get started, navigate to your dashboard and click the **Create** button. You can choose to start from a GitHub repository, or create a Provider project (like Auto-MCP).
+---
 
-### 2. View your Dashboard
-
-Once created, you'll be taken to your Project Dashboard. Here you can view your real-time usage metrics, manage team access, and configure project-specific settings.
-
-## Generating an MCP Server
+## Step 2: Configure Auto-MCP
 
 Karada's most powerful feature is **Auto-MCP**, which turns any API into AI-ready tools.
 
 <Steps>
-  <Step title='Navigate to Auto-MCP'>
-    From your dashboard, click **Create** and select the **Auto-MCP** template.
+  <Step title='Select Specification Type'>
+    Choose between **OpenAPI** or **Swagger** depending on the format of your
+    API specification. Karada supports both widely-used standards.
   </Step>
-  <Step title='Provide an OpenAPI Spec'>
-    Paste the URL to any valid OpenAPI (`.json` or `.yaml`) specification file
-    (e.g., `https://api.example.com/openapi.json`).
+  <Step title='Provide the API URL or File'>
+    Paste the URL pointing to your `.json` or `.yaml` specification file.
+    Alternatively, you can upload the file directly from your local machine.
   </Step>
-  <Step title='Review & Generate'>
-    Karada will automatically parse the spec and show you the detected tools.
-    Click **Generate** to receive a fully-functioning TypeScript Model Context
-    Protocol (MCP) server that proxies requests to your API.
+  <Step title='Review the Detected Tools'>
+    Karada will immediately parse the specification. You can review the list of
+    detected endpoints, required parameters, and descriptions. These will become
+    the exact tools available to your AI assistant.
   </Step>
 </Steps>
+
+---
+
+## Step 3: Generate and Deploy
+
+Once you are satisfied with the detected tools:
+
+1. Click the **Generate Server** button.
+2. In a few seconds, Karada will compile a fully-functioning TypeScript server.
+3. You can now choose to:
+   - **Download as ZIP**: Run the server locally on your machine.
+   - **Deploy to Karada**: Host the server instantly on our scalable infrastructure.
+
+### Running Locally (Downloaded ZIP)
+
+If you chose to download the server, follow these steps to run it locally:
+
+```bash
+# Unzip the downloaded folder
+unzip karada-mcp-server.zip
+cd karada-mcp-server
+
+# Install dependencies
+npm install
+
+# Start the generated MCP server
+npm start
+```
+
+## Next Steps
+
+Now that you have your MCP server running, you can connect it to AI clients like the **Claude Desktop App** or **Cursor IDE**.
+
+👉 **[Learn more about configuring AI Clients in our Auto-MCP Deep Dive](/features/auto-mcp)**

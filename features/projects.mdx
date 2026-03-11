@@ -1,25 +1,44 @@
 ---
 title: "Project Management"
-description: "Organize your work with dedicated workspaces."
+description: "Organize, configure, and monitor your integrations."
 ---
 
-Projects are the core organizational unit in Karada. Every deployment, integration, and usage metric is tied to a specific project.
+In Karada, a **Project** is the fundamental container for all your deployed services, Auto-MCP integrations, and resource limits.
 
-## Creating a Project
+Every Project belongs to a **Workspace** (Team), ensuring that billing, access control, and usage are centrally managed.
 
-You can create two types of projects:
+## Creating Projects
 
-1. **GitHub Repository**: Connect a GitHub repo to automatically deploy infrastructure.
-2. **Provider**: Set up an integration-first project, such as an Auto-MCP server.
+When creating a new project, you can choose from two primary paths:
 
-## Project Dashboard
+### 1. Provider Projects (e.g., Auto-MCP)
 
-The Project Dashboard provides a centralized view of your project's health:
+When you build an integration through Karada's specialized providers like Auto-MCP, Karada manages the underlying source code and repository for you. You only need to provide the configuration (e.g., an OpenAPI specification URL), and Karada handles the build, deployment, and versioning.
 
-- **Overview**: See active deployments and connected repositories.
-- **Usage**: Monitor the number of requests, compute time, and resources consumed by your project.
-- **Settings**: Configure environment variables, rename your project, or delete it permanently.
+### 2. Git Integrations (Coming Soon)
 
-## Scope Switcher
+For bespoke applications, you can connect your Karada workspace to a GitHub repository. Karada will automatically setup CI/CD pipelines to build and deploy your application every time you push to the `main` branch.
 
-If you are a member of multiple teams, you can quickly switch between them using the Team Switcher in the top navigation bar. Every project belongs to exactly one team.
+---
+
+## The Project Dashboard
+
+The Project Dashboard is your command center. From here, you can observe all critical metrics and configurations at a glance.
+
+### Usage Tracking
+
+If your project utilizes AI agents or processes automated requests, the **Usage** tab provides real-time insights into your consumption. Karada tracks:
+
+- Total API Requests
+- Bandwidth Data Transfer
+- Error Rates and Latency (where applicable)
+
+Usage metrics are critical for monitoring the health of your deployments and ensuring you stay within your billing tier.
+
+### Managing Settings
+
+The **Settings** tab allows you to customize the behavior of your project:
+
+- **General**: Change the project name, description, and primary domain.
+- **Environment Variables**: Securely store and inject secrets (like `OPENAI_API_KEY`) into your deployments at runtime. Karada encrypts these values at rest.
+- **Danger Zone**: Transfer project ownership to another team or permanently delete the project. Deleting a project stops all active deployments immediately.

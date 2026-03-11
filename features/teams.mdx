@@ -1,20 +1,47 @@
 ---
-title: "Teams"
-description: "Collaborate seamlessly across projects."
+title: "Team Collaboration"
+description: "Manage workspaces and role-based access control."
 ---
 
-Karada is built for collaboration from day one. Teams allow multiple users to manage and monitor the same projects together.
+Modern development is collaborative. Karada uses **Workspaces** (often called Teams) to allow multiple developers, managers, and stakeholders to interact with projects, billing, and settings collaboratively.
 
-## Managing Team Members
+## Workspaces overview
 
-1. Navigate to your Team Settings using the dropdown in the top-left corner.
-2. Click **Members**.
-3. Invite new users by providing their email address.
+A Workspace is a shared environment where Projects reside.
 
-## Roles and Permissions
+- You can belong to multiple workspaces.
+- You can switch between workspaces using the Team Switcher in the top-left corner of the Karada Dashboard.
+- Billing is always tied to the Workspace, not to individual user accounts.
 
-Currently, Karada supports single-level access, meaning any member invited to a team has full access to create, edit, and delete projects within that team.
+When you create an account, Karada automatically provisions a Personal Workspace for you. You can create additional Team Workspaces at any time.
 
-## Personal Teams
+---
 
-When you sign up for Karada, a personal team is automatically created for you. You can use this for your independent projects, and create dedicated organizations for your collaborative work.
+## Role-Based Access Control (RBAC)
+
+To protect critical infrastructure, Karada implements strict Role-Based Access Control. When you invite team members to your workspace, you must assign them a specific role.
+
+<ResponseField name='Owner' type='Highest Privilege'>
+  Owners have unrestricted access. They can delete the workspace, manage billing
+  details, delete projects, and modify team members' roles.
+</ResponseField>
+
+<ResponseField name='Admin' type='High Privilege'>
+  Admins can manage projects, trigger deployments, add environment variables,
+  and view all usage statistics. They cannot delete the workspace or modify
+  billing.
+</ResponseField>
+
+<ResponseField name='Member' type='Standard Privilege'>
+  Members can view projects, view deployment logs, and view usage statistics.
+  They cannot trigger new deployments, view raw environment variable values, or
+  modify team settings.
+</ResponseField>
+
+### Inviting Members
+
+1. Navigate to your Workspace settings.
+2. Select the **Members** tab.
+3. Click **Invite Member**.
+4. Enter the user's email address and select their desired role.
+5. The user will receive an email invitation to join Karada and link to your workspace.

@@ -1,20 +1,44 @@
 ---
 title: "Deployments"
-description: "Ship your code with a single click."
+description: "Deploy and scale your Karada projects securely."
 ---
 
-Deploying your code should be invisible. Karada handles the heavy lifting of taking your code from a GitHub repository to a live, scalable environment.
+Karada takes the pain out of deploying and hosting backend services. Whenever you create an Auto-MCP project or connect a Git repository, Karada offers a robust deployment pipeline right out of the box.
 
-## Triggering a Deployment
+## How Deployments Work
 
-Deployments are triggered automatically whenever you push to your configured production branch (usually `main` or `master`).
+A Deployment in Karada represents a specific build and runtime state of your project.
 
-You can also trigger manual deployments from the Project Dashboard by clicking **Deploy**.
+### Automatic Builds
 
-## Deployment Logs
+When you click **Deploy** on the dashboard (or when continuous integration triggers a new build), Karada spins up an isolated builder container.
 
-During a deployment, Karada streams real-time build logs directly to your dashboard. If a build fails, you can inspect the exact error and environment variables that caused the issue.
+1. It downloads your source code (or the generated Auto-MCP server).
+2. It detects the language and runtime (e.g., Node.js).
+3. It installs dependencies securely and compiles your project.
 
-## Auto-MCP Deployments
+### Global Edge CDN and Regions
 
-_Coming Soon_: Currently, Auto-MCP generates code for you to download and run locally. In the future, Karada will support one-click cloud hosting for your generated MCP servers, allowing you to use them in cloud-based AI agents without managing infrastructure.
+Once built, your application is pushed to Karada's distributed container registry. When the server starts:
+
+- It runs securely using firecracker microVMs.
+- Statically generated files and assets are cached across our global Edge CDN for lightning-fast loads.
+- Your dynamic endpoints are exposed via a secure HTTPS proxy.
+
+---
+
+## Managing Deployments
+
+From the **Deployments** tab in your Project Dashboard, you can monitor the lifecycle of every build.
+
+### Deployment Logs
+
+Every deployment generates detailed build logs. If a build fails (e.g., due to a syntax error or a missing dependency), you can immediately inspect the logs directly in the Karada UI to diagnose the problem. There is no need to SSH into servers.
+
+### Instant Rollbacks
+
+Mistakes happen. If a new deployment introduces a bug, Karada makes it incredibly simple to revert. Just click the three dots (`...`) next to any previous successful deployment and select **Rollback**. Karada will instantly route traffic back to the stable version with zero downtime.
+
+### Custom Domains
+
+By default, Karada assigns a unique `.karada.ai` subdomain to every project automatically. You can also map your own custom domains by configuring a CNAME record in the **Settings** tab. Karada provisions and automatically renews free SSL certificates for all custom domains.

@@ -1,23 +1,67 @@
 ---
 title: "Auto-MCP"
-description: "Turn any API into AI-ready tools instantly."
+description: "Turn any REST API into an intelligent tool proxy for AI Agents."
 ---
 
-Auto-MCP is Karada's flagship feature that bridges the gap between traditional REST APIs and modern AI agents (like Claude or ChatGPT).
+Auto-MCP is Karada's flagship feature. It bridges the gap between traditional REST APIs and modern AI agents (like Claude, Cursor, or ChatGPT) by automatically generating a [Model Context Protocol (MCP)](https://modelcontextprotocol.io) compliant server.
 
-It allows you to provide an OpenAPI or Swagger specification, and it automatically generates a fully functioning TypeScript server implementing the [Model Context Protocol (MCP)](https://modelcontextprotocol.io).
+## The Problem
 
-## How it works
+AI models are incredibly smart, but they are isolated. They cannot interact with your custom company data, SaaS applications, or internal microservices natively. To fix this, developers usually have to spend hours writing custom integration code to wrap their existing REST APIs into formats the AI can understand.
 
-1. **Parse**: Karada reads your provided `openapi.json` or `swagger.yaml` via URL.
-2. **Detect**: It identifies all available endpoints, parameters, and authentication schemes.
-3. **Generate**: It compiles a lightweight TypeScript proxy server using the official MCP SDK.
+## The Karada Solution
 
-## Using the Generated Server
+Karada eliminates this manual work entirely. If your API has an OpenAPI (v3) or Swagger (v2) specification, Karada can instantly generate a fully-typed TypeScript MCP server that acts as a secure bridge between the AI and your API.
 
-After generation, you can download the server as a ZIP file.
+### How the Pipeline Works
 
-1. Unzip the downloaded file.
-2. Run `npm install` to install dependencies.
-3. Start the server using `npm start`.
-4. Add the server to your AI assistant's configuration (e.g., Cursor, Claude Desktop) to start using your API's endpoints as native tools.
+1. **Intelligent Parsing**: Karada reads your provided `openapi.json` or `swagger.yaml` document.
+2. **Schema Translation**: It translates complex JSON Schema objects, query parameters, path variables, and request bodies into native MCP Input Schemas using the official `@modelcontextprotocol/sdk`.
+3. **Endpoint Mapping**: It maps every API route to a distinct MCP `tool`. The tool description is automatically derived from your OpenAPI `summary` and `description` fields, ensuring the LLM knows _exactly_ when and how to use it.
+4. **Code Generation**: Karada compiles an executable, zero-dependency Node.js/TypeScript application containing the entire proxy logic.
+
+---
+
+## Authentication Handling
+
+Most APIs require some form of authentication (API Keys, Bearer Tokens, Basic Auth). Auto-MCP supports passing these credentials dynamically at runtime.
+
+When you start the generated server, you simply pass the required tokens as environment variables:
+
+```bash
+# Example: Running a generated server that requires a Bearer token
+API_KEY="your-secret-key" npm start
+```
+
+Karada automatically inspects the `securitySchemes` in your OpenAPI spec and generates code that intercepts all outgoing requests from the MCP server to inject the correct headers or query parameters.
+
+---
+
+## Connecting to AI Clients
+
+Once your server is generated and running (either locally or deployed on Karada), you need to configure your AI client to use it.
+
+### Claude Desktop Configuration
+
+To connect your generated Karada server to Claude Desktop, edit your `claude_desktop_config.json` file:
+
+**Mac:** `~/Library/Application Support/Claude/claude_desktop_config.json`  
+**Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+
+Add the following configuration, replacing the paths with the location of your unzipped Karada build:
+
+```json
+{
+  "mcpServers": {
+    "my-karada-api": {
+      "command": "node",
+      "args": ["/absolute/path/to/your/unzipped/karada-server/build/index.js"],
+      "env": {
+        "API_KEY": "your-secred-token-if-needed"
+      }
+    }
+  }
+}
+```
+
+Restart Claude Desktop. You will now see a new hammer icon (🛠️) indicating that Claude has full access to your API directly through Karada's generated tools!

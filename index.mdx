@@ -1,26 +1,36 @@
 ---
-title: Introduction
-description: "Welcome to Karada - Build and deploy faster."
+title: Welcome to Karada
+description: "The intelligent deployment and API integration platform built for the AI era."
 ---
 
-Karada is a comprehensive platform designed to accelerate your development workflow. It provides robust project management, instant deployments, seamless integrations, and the innovative Auto-MCP feature for generating AI agent tools.
+Karada is a comprehensive platform designed to accelerate your development workflow by seamlessly bridging the gap between traditional REST APIs and modern AI agents. Whether you're a solo developer shipping a new app or a massive team managing complex microservices, Karada provides the infrastructure to deploy, scale, and integrate faster.
 
-## Platform Features
+## Why Karada?
+
+In the era of AI-driven development, tools like Claude, Cursor, and ChatGPT need to interact with your data. Traditionally, this meant writing custom wrapper code for every single API.
+
+Karada solves this by providing **Auto-MCP**: an automated pipeline that converts standard OpenAPI and Swagger specifications into fully-functional TypeScript servers implementing the [Model Context Protocol (MCP)](https://modelcontextprotocol.io).
 
 <CardGroup cols={2}>
-  <Card title='Project Management' icon='folder-open' href='/features/projects'>
-    Organize your work with dedicated workspaces, settings, and real-time usage
-    tracking.
-  </Card>
-  <Card title='Auto-MCP' icon='robot' href='/features/auto-mcp'>
+  <Card title='Auto-MCP Generation' icon='robot' href='/features/auto-mcp'>
     Generate complete TypeScript MCP servers instantly from any OpenAPI or
-    Swagger specification.
+    Swagger specification. Expose your APIs to AI assistants with zero
+    handwritten code.
   </Card>
-  <Card title='Deployments' icon='rocket' href='/features/deployments'>
-    Deploy your applications and integrations with a single click.
+  <Card title='Project Management' icon='folder-open' href='/features/projects'>
+    Organize your work with dedicated workspaces. Track real-time usage metrics,
+    configure settings, and manage environments effortlessly.
+  </Card>
+  <Card title='Instant Deployments' icon='rocket' href='/features/deployments'>
+    Deploy your generated MCP servers and web applications with a single click.
+    Enjoy automatic builds and scalable infrastructure.
   </Card>
   <Card title='Team Collaboration' icon='users' href='/features/teams'>
-    Invite team members, manage roles, and collaborate seamlessly across
-    projects.
+    Invite team members, manage granular role-based access control (RBAC), and
+    collaborate seamlessly across multiple projects.
   </Card>
 </CardGroup>
+
+## Getting Started
+
+Ready to dive in? Head over to our [Quickstart Guide](/quickstart) to get up and running with your first Auto-MCP server in less than 5 minutes.
