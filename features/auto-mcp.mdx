@@ -1,0 +1,23 @@
+---
+title: "Auto-MCP"
+description: "Turn any API into AI-ready tools instantly."
+---
+
+Auto-MCP is Karada's flagship feature that bridges the gap between traditional REST APIs and modern AI agents (like Claude or ChatGPT).
+
+It allows you to provide an OpenAPI or Swagger specification, and it automatically generates a fully functioning TypeScript server implementing the [Model Context Protocol (MCP)](https://modelcontextprotocol.io).
+
+## How it works
+
+1. **Parse**: Karada reads your provided `openapi.json` or `swagger.yaml` via URL.
+2. **Detect**: It identifies all available endpoints, parameters, and authentication schemes.
+3. **Generate**: It compiles a lightweight TypeScript proxy server using the official MCP SDK.
+
+## Using the Generated Server
+
+After generation, you can download the server as a ZIP file.
+
+1. Unzip the downloaded file.
+2. Run `npm install` to install dependencies.
+3. Start the server using `npm start`.
+4. Add the server to your AI assistant's configuration (e.g., Cursor, Claude Desktop) to start using your API's endpoints as native tools.
