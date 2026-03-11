@@ -14,7 +14,7 @@
         "tab": "Guides",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Getting Started",
             "pages": ["index", "quickstart"]
           },
           {
@@ -23,8 +23,17 @@
               "features/projects",
               "features/auto-mcp",
               "features/deployments",
+              "features/integrations",
               "features/teams"
             ]
+          },
+          {
+            "group": "Account",
+            "pages": ["features/account", "features/usage-billing"]
+          },
+          {
+            "group": "Resources",
+            "pages": ["faq", "development"]
           }
         ]
       }

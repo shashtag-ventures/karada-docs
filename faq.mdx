@@ -1,0 +1,101 @@
+---
+title: "FAQ & Troubleshooting"
+description: "Common questions and solutions for Karada users."
+---
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="What is the Model Context Protocol (MCP)?">
+    MCP is an open standard created by Anthropic that allows AI assistants (like Claude, Cursor, and ChatGPT) to interact with external tools and data sources. Karada generates MCP-compliant servers so your existing APIs can be used natively by AI agents without writing any custom integration code.
+  </Accordion>
+
+<Accordion title='What API specification formats are supported?'>
+  Karada supports both **OpenAPI v3** (`.json` and `.yaml`) and **Swagger v2**
+  (`.json` and `.yaml`) specifications. You can provide a URL pointing to the
+  specification or upload the file directly.
+</Accordion>
+
+<Accordion title='Do I need to know TypeScript to use Auto-MCP?'>
+  **No.** Karada generates the entire TypeScript MCP server for you
+  automatically. You only need to provide your API specification — the generated
+  server is ready to run out of the box with `npm install && npm start`.
+</Accordion>
+
+<Accordion title='Can I use Karada with private/internal APIs?'>
+  Yes. Karada only reads your API specification to understand the available
+  endpoints. Your actual API data never passes through Karada's servers — the
+  generated MCP server runs on **your** infrastructure and communicates directly
+  with your API.
+</Accordion>
+
+<Accordion title='How does authentication work for generated servers?'>
+  Karada detects the `securitySchemes` defined in your OpenAPI/Swagger
+  specification and generates code that handles authentication automatically.
+  You pass your API keys or tokens as environment variables when starting the
+  server.
+</Accordion>
+
+<Accordion title='Can I customize the generated MCP server code?'>
+  Yes. After downloading the generated server, the code is fully yours. It's
+  clean, well-structured TypeScript that you can modify, extend, or integrate
+  into your existing projects.
+</Accordion>
+
+  <Accordion title="How many team members can I invite?">
+    It depends on your plan. The **Free** tier supports 1 member, **Pro** supports up to 10, and **Enterprise** offers unlimited seats. See the [Usage & Billing](/features/usage-billing) page for full details.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="My MCP server won't connect to Claude Desktop">
+    This is usually a configuration path issue. Double-check that:
+    1. The path in your `claude_desktop_config.json` points to the correct **absolute path** of your generated `build/index.js` file.
+    2. You've run `npm install` in the generated project directory.
+    3. You've restarted Claude Desktop after modifying the config file.
+    4. If your API requires authentication, ensure the environment variables are set correctly in the config.
+  </Accordion>
+
+<Accordion title="The generated server fails with 'Cannot find module' errors">
+  Run `npm install` in the generated project directory. This installs all
+  required dependencies including the `@modelcontextprotocol/sdk` package.
+</Accordion>
+
+<Accordion title='My OpenAPI URL returns a parsing error'>
+  Ensure that: - The URL returns a valid JSON or YAML document (not an HTML
+  page). - The URL is publicly accessible (Karada's parser needs to fetch it). -
+  The specification is valid OpenAPI v3 or Swagger v2. You can validate your
+  spec at [editor.swagger.io](https://editor.swagger.io).
+</Accordion>
+
+<Accordion title="I can't see my project after switching teams">
+  Projects belong to specific workspaces. Use the **Team Switcher** in the
+  top-left corner of the dashboard to switch to the correct workspace. Your
+  project will appear under the workspace where it was created.
+</Accordion>
+
+<Accordion title='My deployment build is failing'>
+  Check the **Deployment Logs** in the Deployments tab of your project. Common
+  causes include: - Invalid or unreachable API specification URLs - Syntax
+  errors in custom code modifications - Missing environment variables required
+  by your project
+</Accordion>
+
+  <Accordion title="How do I delete a project?">
+    Navigate to your project's **Settings** tab and scroll to the **Danger Zone** at the bottom. Click **Delete Project** and confirm. This action is permanent and will stop all active deployments.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Still Need Help?
+
+If you can't find the answer to your question here, reach out to us:
+
+- **Email**: support@karada.ai
+- **Discord**: [Join our community](https://discord.gg/karada)
+- **GitHub Issues**: [karada-docs](https://github.com/shashtag-ventures/karada-docs/issues)

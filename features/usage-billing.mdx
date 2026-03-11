@@ -1,0 +1,69 @@
+---
+title: "Usage & Billing"
+description: "Monitor your resource consumption and manage your plan."
+---
+
+Karada provides real-time visibility into your project's resource consumption. The **Usage** tab in your Project Dashboard gives you a clear picture of how your deployments and MCP servers are performing.
+
+## Usage Metrics
+
+Karada tracks three key metrics over a rolling **30-day window**:
+
+<CardGroup cols={3}>
+  <Card title='Total Invocations' icon='signal'>
+    The total number of API requests processed by your deployed MCP server or
+    application.
+  </Card>
+  <Card title='Bandwidth' icon='cloud-arrow-down'>
+    The total data transferred (in bytes) across all requests and responses.
+  </Card>
+  <Card title='Error Rate' icon='circle-exclamation'>
+    The percentage of requests that returned an error status code (4xx or 5xx).
+    A healthy project should aim for an error rate below 1%.
+  </Card>
+</CardGroup>
+
+---
+
+## Understanding the Dashboard
+
+The Usage page also includes additional insights:
+
+### Requests by Region
+
+A geographic breakdown of where your API requests are originating from. This helps you understand your user base and optimize deployment regions.
+
+### Top Endpoints
+
+A ranked list of your most-called API endpoints, showing the request count and relative traffic distribution. This is useful for identifying hotspots and optimizing performance where it matters most.
+
+---
+
+## Billing Plans
+
+Karada offers flexible pricing tiers based on your usage needs. Billing is managed at the **Workspace** level, meaning all projects within a workspace share the same plan.
+
+| Feature      | Free      | Pro            | Enterprise |
+| ------------ | --------- | -------------- | ---------- |
+| Projects     | Up to 3   | Unlimited      | Unlimited  |
+| Deployments  | 10/month  | Unlimited      | Unlimited  |
+| Bandwidth    | 1 GB      | 100 GB         | Custom     |
+| Team Members | 1         | 10             | Unlimited  |
+| Support      | Community | Priority Email | Dedicated  |
+
+<Note>
+  Plans and pricing are subject to change. Visit [karada.ai](https://karada.ai)
+  for the most up-to-date information.
+</Note>
+
+---
+
+## Managing Your Plan
+
+To upgrade, downgrade, or manage your billing:
+
+1. Navigate to **Account Settings** → **Billing**.
+2. View your current plan and usage against your limits.
+3. Click **Upgrade** to move to a higher tier, or **Manage Subscription** to update payment details.
+
+All plan changes take effect immediately. Upgrades are prorated, and downgrades apply at the end of your current billing cycle.
