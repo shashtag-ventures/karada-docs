@@ -32,6 +32,14 @@
             "pages": ["features/account", "features/usage-billing"]
           },
           {
+            "group": "Playbooks",
+            "pages": ["playbooks/building-agents"]
+          },
+          {
+            "group": "Troubleshooting",
+            "pages": ["troubleshooting/error-codes"]
+          },
+          {
             "group": "Resources",
             "pages": ["faq", "development"]
           }

@@ -1,29 +1,44 @@
 ---
-title: "Deployments"
+title: "Guide: Deployments"
 description: "Deploy and scale your Karada projects securely."
 ---
 
-Karada takes the pain out of deploying and hosting backend services. Whenever you create an Auto-MCP project or connect a Git repository, Karada offers a robust deployment pipeline right out of the box.
+Karada removes the complexity of deploying and hosting backend services. Whenever you create an Auto-MCP project or connect a Git repository, Karada offers a robust, automated deployment pipeline right out of the box.
 
 ## How Deployments Work
 
-A Deployment in Karada represents a specific build and runtime state of your project.
+A deployment in Karada represents a specific build and runtime state of your project.
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Karada
+    participant Sandbox
+    participant AIClient as AI Client
+
+    User->>Karada: Upload Code / Sync GitHub
+    Karada->>Sandbox: Build & Containerize
+    Sandbox-->>Karada: Deploy to Firecracker VM
+    Karada-->>User: Secure HTTPS URL Generated
+    User->>AIClient: Provide URL to AI
+    AIClient<-->>Sandbox: LLM uses the deployed MCP server
+```
+
 
 ### Automatic Builds
 
-When you click **Deploy** on the dashboard (or when continuous integration triggers a new build), Karada spins up an isolated builder container.
+When you click **Deploy** on the dashboard (or when continuous integration triggers a new build), Karada automatically orchestrates the build process:
 
-1. It downloads your source code (or the generated Auto-MCP server).
-2. It detects the language and runtime (e.g., Node.js).
-3. It installs dependencies securely and compiles your project.
+1. It downloads your source code or the generated Auto-MCP server.
+2. It detects the required environment.
+3. It installs dependencies securely and compiles your project for production.
 
-### Global Edge CDN and Regions
+### Global Availability
 
-Once built, your application is pushed to Karada's distributed container registry. When the server starts:
+Once built, Karada automatically scales and distributes your application globally. 
 
-- It runs securely using firecracker microVMs.
-- Statically generated files and assets are cached across our global Edge CDN for lightning-fast loads.
-- Your dynamic endpoints are exposed via a secure HTTPS proxy.
+- Static assets load quickly from distributed caches.
+- Dynamic endpoints automatically scale to handle incoming request traffic securely and reliably.
 
 ---
 
@@ -33,12 +48,12 @@ From the **Deployments** tab in your Project Dashboard, you can monitor the life
 
 ### Deployment Logs
 
-Every deployment generates detailed build logs. If a build fails (e.g., due to a syntax error or a missing dependency), you can immediately inspect the logs directly in the Karada UI to diagnose the problem. There is no need to SSH into servers.
+Every deployment generates detailed build logs. If a build fails (e.g., due to a missing requirement or configuration issue), you can immediately inspect the logs directly in the Karada UI to diagnose the problem. You do not need to connect to remote servers to view error output.
 
 ### Instant Rollbacks
 
-Mistakes happen. If a new deployment introduces a bug, Karada makes it incredibly simple to revert. Just click the three dots (`...`) next to any previous successful deployment and select **Rollback**. Karada will instantly route traffic back to the stable version with zero downtime.
+Mistakes happen. If a new deployment introduces a bug, Karada makes it incredibly simple to revert. Click the three dots (`...`) next to any previous successful deployment and select **Rollback**. Karada instantly routes traffic back to the stable version with zero downtime.
 
 ### Custom Domains
 
-By default, Karada assigns a unique `.karada.ai` subdomain to every project automatically. You can also map your own custom domains by configuring a CNAME record in the **Settings** tab. Karada provisions and automatically renews free SSL certificates for all custom domains.
+By default, Karada assigns a unique `.karada.ai` subdomain to every project automatically. You can map your own custom domains by configuring a CNAME record in the **Settings** tab. Karada provisions and automatically renews free SSL certificates for all custom domains.

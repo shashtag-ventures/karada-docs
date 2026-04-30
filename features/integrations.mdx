@@ -1,16 +1,16 @@
 ---
-title: "Integrations Marketplace"
+title: "Guide: Integrations Marketplace"
 description: "Extend your MCP servers with community-built plugins."
 ---
 
-The Integrations Marketplace is where you discover, install, and configure community-built plugins that enhance the capabilities of your Karada projects. Plugins can add features like analytics tracking, request tracing, security headers, rate limiting, and more.
+The Integrations Marketplace allows you to discover, install, and configure community-built plugins that enhance the capabilities of your Karada projects. Plugins add powerful features like analytics tracking, request tracing, security headers, rate limiting, and more.
 
 ## Browsing Available Plugins
 
 Navigate to the **Integrations** tab in your Project Dashboard to view all available plugins. Each plugin card displays:
 
 - **Display Name** and package identifier
-- A brief description of what the plugin does
+- A brief description of the plugin's functionality
 - An **Install** or **Installed** status badge
 
 ---
@@ -28,12 +28,12 @@ Navigate to the **Integrations** tab in your Project Dashboard to view all avail
   </Step>
   <Step title='Configure'>
     Fill in the required configuration fields. These vary by plugin — for
-    example, an analytics plugin might ask for your tracking ID, while a
-    security plugin might ask for allowed origins. Fields marked with a red
-    asterisk (*) are required.
+    example, an analytics plugin requires your tracking ID, while a
+    security plugin requires allowed origins. Fields marked with a red
+    asterisk (*) are mandatory.
   </Step>
   <Step title='Save & Install'>
-    Click **Save & Install**. The plugin is now active on your project. You can
+    Click **Save & Install**. The plugin becomes active on your project immediately. You can
     reconfigure or remove it at any time.
   </Step>
 </Steps>
@@ -42,25 +42,25 @@ Navigate to the **Integrations** tab in your Project Dashboard to view all avail
 
 ## Managing Installed Plugins
 
-Once a plugin is installed, its card will show a green **Installed** badge. You have two options:
+Once you install a plugin, its card displays a green **Installed** badge. You have two options:
 
 - **Configure**: Click to update the plugin's settings at any time.
-- **Remove**: Uninstall the plugin from your project. This is a safe operation — it simply removes the plugin's configuration and stops it from running.
+- **Remove**: Uninstall the plugin from your project. This safe operation simply removes the plugin's configuration and stops it from running.
 
 ---
 
 ## Publishing Your Own Plugin
 
-Karada's marketplace is open to the community. If you've built a useful extension, you can publish it for others to discover and install.
+Karada's marketplace remains open to the community. If you build a useful extension, you can publish it for others to discover and install.
 
 ### Plugin Manifest
 
-When publishing, you define a **manifest** that describes your plugin:
+When publishing, you define a **manifest** that describes your plugin to the marketplace:
 
 | Field                | Required | Description                                                       |
 | -------------------- | -------- | ----------------------------------------------------------------- |
 | Display Name         | ✅       | Human-readable name for the marketplace                           |
-| NPM Package Name     | ✅       | The unique package identifier (e.g., `karada-plugin-analytics`)   |
+| Package Identifier   | ✅       | The unique package identifier (e.g., `karada-plugin-analytics`)   |
 | Description          | —        | Brief summary of what the plugin does                             |
 | Source URL           | ✅       | Link to the public repository (e.g., GitHub)                      |
 | Version              | —        | Semantic version (defaults to `1.0.0`)                            |
@@ -69,7 +69,7 @@ When publishing, you define a **manifest** that describes your plugin:
 
 ### Configuration Schema Format
 
-The schema defines what input fields appear when a user installs your plugin:
+The schema dictates what input fields appear when a user installs your plugin:
 
 ```json
 [
@@ -79,7 +79,7 @@ The schema defines what input fields appear when a user installs your plugin:
     "type": "string",
     "required": true,
     "placeholder": "UA-XXXXXXX-X",
-    "description": "Your Google Analytics tracking identifier."
+    "description": "Your Analytics tracking identifier."
   },
   {
     "key": "api_secret",
@@ -91,4 +91,4 @@ The schema defines what input fields appear when a user installs your plugin:
 ]
 ```
 
-Supported field types include `string`, `password`, `number`, and `boolean`. Fields with `secret: true` will be rendered as password inputs in the UI.
+Supported field types include `string`, `password`, `number`, and `boolean`. Fields marked with `"secret": true` automatically render as obscured password inputs in the UI to protect sensitive values.

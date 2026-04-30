@@ -1,29 +1,29 @@
 ---
-title: "Project Management"
+title: "Guide: Project Management"
 description: "Organize, configure, and monitor your integrations."
 ---
 
-In Karada, a **Project** is the fundamental container for all your deployed services, Auto-MCP integrations, and resource limits.
+In Karada, a **Project** serves as the fundamental container for all your deployed services, Auto-MCP integrations, and resource limits.
 
-Every Project belongs to a **Workspace** (Team), ensuring that billing, access control, and usage are centrally managed.
+Every Project belongs to a **Workspace** (Team), ensuring that billing, access control, and usage remain centrally managed.
 
 ## Creating Projects
 
-When creating a new project, you can choose from two primary paths:
+When you create a new project, you can choose from two primary paths:
 
 ### 1. Provider Projects (e.g., Auto-MCP)
 
-When you build an integration through Karada's specialized providers like Auto-MCP, Karada manages the underlying source code and repository for you. You only need to provide the configuration (e.g., an OpenAPI specification URL), and Karada handles the build, deployment, and versioning.
+When you build an integration through Karada's specialized providers like Auto-MCP, Karada fully manages the underlying source code and deployment lifecycle for you. You only need to provide the configuration (e.g., an OpenAPI specification URL), and Karada handles the rest automatically.
 
 ### 2. Git Integrations (Coming Soon)
 
-For bespoke applications, you can connect your Karada workspace to a GitHub repository. Karada will automatically setup CI/CD pipelines to build and deploy your application every time you push to the `main` branch.
+For bespoke applications, you can connect your Karada workspace to a source control repository. Karada will automatically set up continuous delivery pipelines to build and deploy your application every time you push to the primary branch.
 
 ---
 
 ## The Project Dashboard
 
-The Project Dashboard is your command center. From here, you can observe all critical metrics and configurations at a glance.
+The Project Dashboard is your command center. From here, you observe all critical metrics and configurations at a glance.
 
 ### Usage Tracking
 
@@ -31,9 +31,9 @@ If your project utilizes AI agents or processes automated requests, the **Usage*
 
 - Total API Requests
 - Bandwidth Data Transfer
-- Error Rates and Latency (where applicable)
+- Error Rates and Latency
 
-Usage metrics are critical for monitoring the health of your deployments and ensuring you stay within your billing tier.
+Usage metrics help you monitor the health of your deployments and ensure you stay within your billing tier.
 
 ### Managing Settings
 

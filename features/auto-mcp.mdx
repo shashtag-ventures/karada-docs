@@ -1,45 +1,56 @@
 ---
-title: "Auto-MCP"
+title: "Explanation: Auto-MCP"
 description: "Turn any REST API into an intelligent tool proxy for AI Agents."
 ---
 
-Auto-MCP is Karada's flagship feature. It bridges the gap between traditional REST APIs and modern AI agents (like Claude, Cursor, or ChatGPT) by automatically generating a [Model Context Protocol (MCP)](https://modelcontextprotocol.io) compliant server.
+Auto-MCP bridges the gap between traditional REST APIs and modern AI agents (like Claude, Cursor, or ChatGPT) by automatically generating a [Model Context Protocol (MCP)](https://modelcontextprotocol.io) compliant server.
 
 ## The Problem
 
-AI models are incredibly smart, but they are isolated. They cannot interact with your custom company data, SaaS applications, or internal microservices natively. To fix this, developers usually have to spend hours writing custom integration code to wrap their existing REST APIs into formats the AI can understand.
+AI models understand natural language and complex reasoning, but they remain isolated. They cannot natively interact with your custom company data, SaaS applications, or internal microservices. To bridge this gap, you typically spend hours writing custom integration code to wrap existing REST APIs into formats the AI can understand.
 
 ## The Karada Solution
 
-Karada eliminates this manual work entirely. If your API has an OpenAPI (v3) or Swagger (v2) specification, Karada can instantly generate a fully-typed TypeScript MCP server that acts as a secure bridge between the AI and your API.
+Karada eliminates this manual integration work. If your API provides an OpenAPI (v3) or Swagger (v2) specification, Karada instantly generates a complete MCP server that acts as a secure bridge between the AI and your API.
 
 ### How the Pipeline Works
 
+```mermaid
+flowchart LR
+    A[OpenAPI / Swagger Spec] -->|Input| B(Karada Auto-MCP)
+    B -->|Translates & Maps| C{MCP Server}
+    C <-->|MCP Protocol| D[AI Client<br>e.g., Claude, Cursor]
+    C <-->|REST via Proxy| E[(Your Internal API)]
+    
+    style B fill:#16A34A,stroke:#15803D,stroke-width:2px,color:#fff
+    style C fill:#07C983,stroke:#15803D,stroke-width:2px,color:#fff
+```
+
 1. **Intelligent Parsing**: Karada reads your provided `openapi.json` or `swagger.yaml` document.
-2. **Schema Translation**: It translates complex JSON Schema objects, query parameters, path variables, and request bodies into native MCP Input Schemas using the official `@modelcontextprotocol/sdk`.
-3. **Endpoint Mapping**: It maps every API route to a distinct MCP `tool`. The tool description is automatically derived from your OpenAPI `summary` and `description` fields, ensuring the LLM knows _exactly_ when and how to use it.
-4. **Code Generation**: Karada compiles an executable, zero-dependency Node.js/TypeScript application containing the entire proxy logic.
+2. **Schema Translation**: It translates complex JSON Schema objects, query parameters, path variables, and request bodies into native MCP Input Schemas.
+3. **Endpoint Mapping**: It maps every API route to a distinct MCP `tool`. The tool description derives automatically from your OpenAPI `summary` and `description` fields, ensuring the LLM knows _exactly_ when and how to use it.
+4. **Proxy Generation**: Karada outputs a self-contained executable that handles the entire proxy logic.
 
 ---
 
 ## Authentication Handling
 
-Most APIs require some form of authentication (API Keys, Bearer Tokens, Basic Auth). Auto-MCP supports passing these credentials dynamically at runtime.
+Most APIs require authentication, such as API Keys, Bearer Tokens, or Basic Auth. Auto-MCP supports passing these credentials dynamically at runtime.
 
-When you start the generated server, you simply pass the required tokens as environment variables:
+When you start the generated server, pass the required tokens as environment variables:
 
 ```bash
 # Example: Running a generated server that requires a Bearer token
 API_KEY="your-secret-key" npm start
 ```
 
-Karada automatically inspects the `securitySchemes` in your OpenAPI spec and generates code that intercepts all outgoing requests from the MCP server to inject the correct headers or query parameters.
+Karada automatically inspects the `securitySchemes` in your OpenAPI spec and generates logic that intercepts all outgoing requests from the MCP server to inject the correct headers or query parameters.
 
 ---
 
 ## Connecting to AI Clients
 
-Once your server is generated and running (either locally or deployed on Karada), you need to configure your AI client to use it.
+Once your server runs (either locally or deployed on Karada), configure your AI client to use it.
 
 ### Claude Desktop Configuration
 
@@ -57,11 +68,11 @@ Add the following configuration, replacing the paths with the location of your u
       "command": "node",
       "args": ["/absolute/path/to/your/unzipped/karada-server/build/index.js"],
       "env": {
-        "API_KEY": "your-secred-token-if-needed"
+        "API_KEY": "your-secret-token-if-needed"
       }
     }
   }
 }
 ```
 
-Restart Claude Desktop. You will now see a new hammer icon (🛠️) indicating that Claude has full access to your API directly through Karada's generated tools!
+Restart Claude Desktop. You will see a new hammer icon (🛠️) indicating that Claude has full access to your API directly through Karada's generated tools.

@@ -1,17 +1,17 @@
 ---
-title: "Team Collaboration"
+title: "Guide: Team Collaboration"
 description: "Manage workspaces and role-based access control."
 ---
 
-Modern development is collaborative. Karada uses **Workspaces** (often called Teams) to allow multiple developers, managers, and stakeholders to interact with projects, billing, and settings collaboratively.
+Modern development relies on collaboration. Karada uses **Workspaces** (often referred to as Teams) to allow multiple developers, managers, and stakeholders to interact with projects, billing, and settings collaboratively.
 
-## Workspaces overview
+## Workspaces Overview
 
-A Workspace is a shared environment where Projects reside.
+A Workspace acts as a shared environment where your Projects reside.
 
-- You can belong to multiple workspaces.
-- You can switch between workspaces using the Team Switcher in the top-left corner of the Karada Dashboard.
-- Billing is always tied to the Workspace, not to individual user accounts.
+- You can belong to multiple workspaces simultaneously.
+- You switch between workspaces using the Team Switcher in the top-left corner of the Karada Dashboard.
+- Billing ties directly to the Workspace, not to individual user accounts.
 
 When you create an account, Karada automatically provisions a Personal Workspace for you. You can create additional Team Workspaces at any time.
 
@@ -19,10 +19,10 @@ When you create an account, Karada automatically provisions a Personal Workspace
 
 ## Role-Based Access Control (RBAC)
 
-To protect critical infrastructure, Karada implements strict Role-Based Access Control. When you invite team members to your workspace, you must assign them a specific role.
+To protect your critical infrastructure, Karada implements strict Role-Based Access Control. When you invite team members to your workspace, you must assign them a specific role.
 
 <ResponseField name='Owner' type='Highest Privilege'>
-  Owners have unrestricted access. They can delete the workspace, manage billing
+  Owners hold unrestricted access. They can delete the workspace, manage billing
   details, delete projects, and modify team members' roles.
 </ResponseField>
 
@@ -33,15 +33,17 @@ To protect critical infrastructure, Karada implements strict Role-Based Access C
 </ResponseField>
 
 <ResponseField name='Member' type='Standard Privilege'>
-  Members can view projects, view deployment logs, and view usage statistics.
+  Members can view projects, deployment logs, and usage statistics.
   They cannot trigger new deployments, view raw environment variable values, or
   modify team settings.
 </ResponseField>
 
 ### Inviting Members
 
+Follow these steps to invite a new team member:
+
 1. Navigate to your Workspace settings.
 2. Select the **Members** tab.
-3. Click **Invite Member**.
-4. Enter the user's email address and select their desired role.
-5. The user will receive an email invitation to join Karada and link to your workspace.
+3. Click the **Invite Member** button.
+4. Enter the user's email address and select their designated role.
+5. The user receives an email invitation linking them to your workspace upon acceptance.

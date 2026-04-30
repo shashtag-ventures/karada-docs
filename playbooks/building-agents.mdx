@@ -1,0 +1,69 @@
+---
+title: "Playbook: Building an AI Agent"
+description: "A step-by-step playbook on using Karada to connect an AI Agent to your APIs."
+---
+
+Karada enables LLM-powered agents to safely interact with your proprietary systems. This playbook walks you through building an AI agent that uses a Karada-deployed MCP server to fetch data and perform actions on your behalf.
+
+## Prerequisites
+
+- An existing REST API with an OpenAPI (v3) or Swagger specification.
+- A Karada account.
+- An AI client that supports the Model Context Protocol (e.g., Claude Desktop, Cursor).
+
+---
+
+## Phase 1: Ingesting your API
+
+To let the AI understand your system, you must expose your API logic as discrete tools. Karada handles this automatically.
+
+1. Navigate to the **Karada Dashboard** and create a new **Auto-MCP** project.
+2. Provide your OpenAPI specification.
+   - *Tip*: If you don't have a spec file ready, you can paste a URL to your public `openapi.json` endpoint.
+3. Karada immediately generates a ready-to-deploy MCP server. Each endpoint from your spec is converted into a structured `tool` with a detailed description derived from your schema.
+
+## Phase 2: Deploying the Server
+
+Your generated server needs to run continuously so the agent can ping it anytime.
+
+1. Click **Deploy** from your project page.
+2. Karada provisions a secure, isolated microVM sandbox and boots the server.
+3. Once the build finishes, you receive a secure **HTTPS URL**. Copy this URL.
+
+> [!NOTE]
+> Ensure your deployment has the necessary environment variables set (like `API_KEY` or `DB_PASSWORD`) if your target API requires authentication. The MCP server will automatically proxy these credentials.
+
+## Phase 3: Connecting the Agent
+
+Now you must configure your AI client to communicate with your Karada endpoint.
+
+### Claude Desktop Configuration
+
+1. Open your Claude Desktop config file:
+   - **Mac:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+2. Add your Karada endpoint using the built-in MCP Server block:
+
+```json
+{
+  "mcpServers": {
+    "my-company-api": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/client-cli", "connect", "https://your-karada-url.karada.ai/sse"],
+      "env": {}
+    }
+  }
+}
+```
+
+3. Save the file and restart Claude Desktop.
+4. You should see a **Tools (🛠️)** icon in the input bar. Click it to verify your API endpoints are listed as available tools.
+
+## Phase 4: Interacting with the Agent
+
+Your agent is now fully connected. Try prompting it with tasks that require your API's capabilities.
+
+* **Example Prompt**: "Look up the user 'alice@example.com' and tell me their subscription status."
+* **Example Prompt**: "Fetch the latest 5 support tickets and summarize their issues."
+
+The agent will autonomously decide which tool to call, format the payload, send the request to your Karada MCP Server, and process the response!

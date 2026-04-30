@@ -1,0 +1,45 @@
+---
+title: "Error Code Index"
+description: "A reference guide for common errors encountered when using Karada."
+---
+
+If you run into issues while building, deploying, or connecting to Karada, reference this guide to diagnose and resolve the problem.
+
+## Build and Deployment Errors
+
+### `ERR_BUILD_FAILED`
+The sandbox environment failed to build your project.
+- **Cause**: This typically occurs due to missing dependencies, syntax errors in your code, or an incompatible Node.js/Go/Python version.
+- **Resolution**: Check the deployment logs in the Karada dashboard. Ensure your `package.json`, `go.mod`, or `requirements.txt` correctly lists all required libraries.
+
+### `ERR_SANDBOX_TIMEOUT`
+The deployment timed out while waiting for your server to start.
+- **Cause**: Your server did not bind to the expected port within the initialization time limit, or it crashed immediately upon startup.
+- **Resolution**: Ensure your server listens on the port specified by the `PORT` environment variable. Review the startup logs for immediate runtime crashes.
+
+## Auto-MCP Errors
+
+### `ERR_INVALID_OPENAPI`
+Karada could not parse the provided API specification.
+- **Cause**: The `openapi.json` or `swagger.yaml` file is malformed, invalid JSON/YAML, or uses an unsupported OpenAPI version (v1).
+- **Resolution**: Validate your specification using a tool like [Swagger Editor](https://editor.swagger.io/). Karada supports OpenAPI v3 and Swagger v2.
+
+### `ERR_MISSING_TOOL_DESCRIPTION`
+The generated MCP server failed to register a tool properly.
+- **Cause**: One of the paths in your OpenAPI spec is missing a `description` or `summary` field. MCP relies on these fields to instruct the LLM on how to use the tool.
+- **Resolution**: Add descriptive `summary` and `description` fields to all endpoints in your OpenAPI specification and re-import the file.
+
+## Connection & Proxy Errors
+
+### `ERR_AUTH_REJECTED`
+The target API rejected the request proxied by the Karada MCP server.
+- **Cause**: Missing or invalid authentication credentials.
+- **Resolution**: Ensure you have configured the necessary environment variables (e.g., `API_KEY`, `BEARER_TOKEN`) in the Karada dashboard's **Settings > Environment Variables** section for your deployment.
+
+### `ERR_MCP_PROTOCOL_VIOLATION`
+The AI client (e.g., Claude) could not communicate with the Karada server.
+- **Cause**: The connection was established, but the JSON-RPC messages were malformed, or the server returned an invalid response schema.
+- **Resolution**: This is often a network issue or an internal Karada parsing issue. If you are using SSE (Server-Sent Events), ensure your client configuration URL ends with `/sse`.
+
+> [!TIP]
+> If you encounter an error not listed here, please reach out to our support team or check our [GitHub Issues](https://github.com/shashtag-ventures/karada/issues).
