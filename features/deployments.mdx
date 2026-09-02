@@ -13,15 +13,15 @@ A deployment in Karada represents a specific build and runtime state of your pro
 sequenceDiagram
     participant User
     participant Karada
-    participant Sandbox
+    participant Runtime as Container Runtime
     participant AIClient as AI Client
 
-    User->>Karada: Upload Code / Sync GitHub
-    Karada->>Sandbox: Build & Containerize
-    Sandbox-->>Karada: Deploy to Firecracker VM
+    User->>Karada: Configure Spec / Project
+    Karada->>Runtime: Build & Containerize
+    Runtime-->>Karada: Deploy Container & Generate Endpoint
     Karada-->>User: Secure HTTPS URL Generated
     User->>AIClient: Provide URL to AI
-    AIClient<-->>Sandbox: LLM uses the deployed MCP server
+    AIClient<-->>Runtime: LLM uses the deployed MCP server
 ```
 
 
