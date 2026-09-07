@@ -1,0 +1,61 @@
+---
+title: "Guide: MCP Registry"
+description: "Discover, publish, and connect pre-built MCP servers."
+---
+
+The Karada Registry is a curated catalog of production-ready MCP servers. Browse verified servers for popular APIs, connect them to your Gateway with one click, or publish your own for the community.
+
+## Browsing the Registry
+
+The Registry lists MCP servers with verified metadata:
+
+- **Name and description** — what the server does
+- **Available tools** — the complete tool list with input schemas
+- **Quickstart tabs** — ready-to-use configuration snippets for Claude Desktop, Cursor, and other clients
+- **Environment variables** — required credentials and configuration
+- **Repository and install command** — source code and setup instructions
+
+Use the search and filter controls to find servers by name, category, or tool count.
+
+---
+
+## Connecting a Registry Server to Your Gateway
+
+From any Registry listing detail page, click **Connect to Gateway** to add the server to your active MCP Gateway. Karada will:
+
+1. Create a namespaced connection using the server's canonical prefix
+2. Configure the upstream URL automatically
+3. Prompt you to provide any required API keys or credentials
+
+Once connected, all tools from that server appear in your Gateway's unified tool list immediately.
+
+---
+
+## Publishing to the Registry
+
+If you build an MCP server on Karada (via Auto-MCP or a connected Git repository), you can publish it to the Registry for others to discover and use.
+
+### How to Publish
+
+1. Navigate to your **Project Dashboard**.
+2. Click **Publish to Registry** from the project actions menu.
+3. Karada validates that your server responds to MCP `initialize` and `tools/list` correctly.
+4. Once published, your server appears in the Registry with its tool catalog and quickstart instructions.
+
+### Claim Precedence
+
+For popular APIs (e.g., Stripe, GitHub, Slack), multiple publishers may offer MCP servers. Karada enforces **claim precedence** — the first verified publisher for a given API namespace holds the canonical listing. Additional publishers can submit claim requests, which are reviewed by the Karada team.
+
+---
+
+## Registry Plugins
+
+The Registry also supports **plugins** — packaged extensions that add custom business logic, auth flows, or data transforms to any MCP server.
+
+From the Registry plugin section:
+
+- **List** available plugins for your team
+- **Create** new plugins with custom handlers
+- **Publish** plugins to make them available across your organization
+
+Plugins follow Karada's composable architecture: they hook into the request lifecycle without modifying base server code.

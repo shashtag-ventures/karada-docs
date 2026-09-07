@@ -22,8 +22,9 @@
             "pages": [
               "features/projects",
               "features/auto-mcp",
+              "features/gateway",
+              "features/registry",
               "features/deployments",
-              "features/integrations",
               "features/teams"
             ]
           },
