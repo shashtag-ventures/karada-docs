@@ -1,36 +1,37 @@
 ---
-title: "Guide: Project Management"
-description: "Organize, configure, and monitor your integrations."
+title: "Project Workspaces & Management | Karada.ai"
+description: "Manage Auto-MCP server projects, environment secrets, real-time telemetry, and deployment configurations in Karada.ai."
 ---
 
-In Karada, a **Project** serves as the fundamental container for all your deployed services, Auto-MCP integrations, and resource limits.
+In Karada, a **Project** is the fundamental container for your deployed services, Auto-MCP servers, plugins, and resource limits.
 
-Every Project belongs to a **Workspace** (Team), ensuring that billing, access control, and usage remain centrally managed.
+Every Project resides within a **Workspace** (Team), ensuring billing, role-based access control, and usage telemetry remain centrally organized.
+
+---
 
 ## Creating Projects
 
-When you create a new project with Karada Auto-MCP, Karada fully manages the underlying source code and deployment lifecycle for you. You only need to provide your API specification configuration (e.g., an OpenAPI or Swagger URL / file upload), and Karada handles parsing, tool extraction, and deployment automatically.
+When creating a new project with Karada Auto-MCP, Karada manages the underlying containerization and deployment lifecycle for you. You provide your API specification (OpenAPI v3 or Swagger v2 via URL or upload), and Karada handles parsing, schema translation, tool extraction, and runtime provisioning automatically.
 
 ---
 
 ## The Project Dashboard
 
-The Project Dashboard is your command center. From here, you observe all critical metrics and configurations at a glance.
+The Project Dashboard provides operational control and visibility over your MCP servers:
 
-### Usage Tracking
+### Usage Telemetry
 
-If your project utilizes AI agents or processes automated requests, the **Usage** tab provides real-time insights into your consumption. Karada tracks:
+If your project powers AI coding agents or processes automated tool calls, the **Usage** tab provides real-time telemetry:
 
-- Total API Requests
-- Bandwidth Data Transfer
-- Error Rates and Latency
+- **Total API & Tool Invocations**: Track query frequency across agents
+- **Bandwidth Transfer**: Monitor data payload volume
+- **Latency & Error Rates**: Detect upstream API timeouts or schema mismatches
 
-Usage metrics help you monitor the health of your deployments and ensure you stay within your billing tier.
+### Configuration & Secrets
 
-### Managing Settings
+The **Settings** tab controls environment variables, domains, and access policies:
 
-The **Settings** tab allows you to customize the behavior of your project:
-
-- **General**: Change the project name, description, and primary domain.
-- **Environment Variables**: Securely store and inject secrets (like `OPENAI_API_KEY`) into your deployments at runtime. Karada encrypts these values at rest.
-- **Danger Zone**: Transfer project ownership to another team or permanently delete the project. Deleting a project stops all active deployments immediately.
+- **General**: Customize project title, description, and vanity domains.
+- **Environment Variables**: Store sensitive API keys, database credentials, and Bearer tokens. Karada encrypts all secrets at rest using AES-256-GCM and injects them securely at runtime.
+- **Plugins**: Enable or reconfigure installed extensions (analytics, rate limiting, security headers).
+- **Danger Zone**: Transfer project ownership or permanently decommission deployments.

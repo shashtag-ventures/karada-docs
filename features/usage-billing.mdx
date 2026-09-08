@@ -1,69 +1,56 @@
 ---
-title: "Guide: Usage & Billing"
-description: "Monitor your resource consumption and manage your plan."
+title: "Usage Telemetry & Subscription Billing Plans | Karada.ai"
+description: "Monitor real-time MCP server tool invocations, bandwidth, and error rates, and explore Karada.ai subscription tiers."
 ---
 
-Karada provides real-time visibility into your project's resource consumption. The **Usage** tab in your Project Dashboard delivers a clear picture of how your deployments and integrations perform.
+Karada provides transparent, real-time observability into your infrastructure consumption. The **Usage** tab in your Project Dashboard delivers a comprehensive view of how your deployments, Auto-MCP servers, and plugins perform in production.
 
-## Usage Metrics
+---
 
-Karada tracks three key metrics over a rolling **30-day window**:
+## Real-Time Telemetry
+
+Karada tracks core operational metrics over a rolling **30-day window**:
 
 <CardGroup cols={3}>
-  <Card title='Total Invocations' icon='signal'>
-    The total number of API requests processed by your deployed server or
-    application.
+  <Card title='Tool Invocations' icon='signal'>
+    Total tool executions and API calls routed through your MCP servers and Gateway proxies.
   </Card>
-  <Card title='Bandwidth' icon='cloud-arrow-down'>
-    The total data transferred (in bytes) across all requests and responses.
+  <Card title='Bandwidth Consumption' icon='cloud-arrow-down'>
+    Total egress and ingress volume across AI agent requests and backend API responses.
   </Card>
   <Card title='Error Rate' icon='circle-exclamation'>
-    The percentage of requests that returned an error status code (4xx or 5xx).
-    A healthy project should maintain an error rate below 1%.
+    Percentage of requests returning client or server errors (4xx / 5xx). Healthy servers maintain under 1%.
   </Card>
 </CardGroup>
 
 ---
 
-## Understanding the Dashboard
+## Usage Insights
 
-The Usage page also includes additional insights to help you optimize:
-
-### Requests by Region
-
-A geographic breakdown showing where your API requests originate. Use this to understand your user base and optimize deployment regions.
-
-### Top Endpoints
-
-A ranked list of your most-called API endpoints, displaying the request count and relative traffic distribution. Use this to identify hotspots and optimize performance where it matters most.
+- **Traffic by Geographic Region**: Understand invocation latency and traffic distribution by continent and region.
+- **Top Invocated Tools**: Identify which tools in your OpenAPI spec AI assistants call most frequently, optimizing backend caching and database queries accordingly.
 
 ---
 
-## Billing Plans
+## Workspace Billing Tiers
 
-Karada offers flexible pricing tiers based on your usage needs. Billing is managed at the **Workspace** level, meaning all projects within a workspace share the same plan.
+Karada offers flexible plans designed for individual builders, growing engineering teams, and enterprise deployments. Billing is managed at the **Workspace** level:
 
-| Feature            | Hobby        | Pro            | Enterprise    |
-| ------------------ | ------------ | -------------- | ------------- |
-| Monthly Price      | $0           | $20            | Custom        |
-| Max MCP Servers    | Up to 100    | Up to 1,000    | Up to 10,000  |
-| Monthly Requests   | 10,000       | 100,000        | 10,000,000    |
-| Workspaces / Teams | 1            | 10             | 1,000         |
-| Support            | Community    | Email Support  | Dedicated     |
-
-<Note>
-  Plans and pricing are subject to change. Visit [karada.ai](https://karada.ai)
-  for the most up-to-date information.
-</Note>
+| Feature | Hobby | Pro | Enterprise |
+| :--- | :--- | :--- | :--- |
+| **Monthly Price** | Free ($0) | $20 / mo | Custom |
+| **Max MCP Servers** | Up to 100 | Up to 1,000 | Up to 10,000 |
+| **Monthly Requests** | 10,000 | 100,000 | 10,000,000+ |
+| **Team Workspaces** | 1 Workspace | 10 Workspaces | Custom |
+| **Plugins Marketplace** | Standard Plugins | Full Marketplace | Custom Private Plugins |
+| **Support** | Community Discord | Priority Email | Dedicated Slack & SLA |
 
 ---
 
-## Managing Your Plan
+## Managing Subscriptions
 
-To upgrade, downgrade, or manage your billing:
+To view consumption against quota limits or update payment credentials:
 
-1. Navigate to **Account Settings** → **Billing**.
-2. View your current plan and usage against your limits.
-3. Click **Upgrade** to move to a higher tier, or **Manage Subscription** to update payment details.
-
-All plan changes take effect immediately. Upgrades are prorated, and downgrades apply at the end of your current billing cycle.
+1. Open **Account Settings** → **Billing**.
+2. Review active usage against monthly plan allocations.
+3. Select **Upgrade** or **Manage Subscription** to adjust plans via our secure payment portal.

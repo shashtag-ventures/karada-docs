@@ -19,11 +19,12 @@ The fastest way to get your API talking to an AI agent is through the Auto-MCP q
 
 ## Core Features
 
-- **Auto-MCP Generation**: Instantly turn APIs into AI-ready tools.
+- **Auto-MCP Generation**: Instantly turn APIs into AI-ready tools using a high-performance Go engine.
+- **Unified MCP Gateway**: Multiplex dozens of MCP servers behind a single endpoint.
+- **Plugins Marketplace**: Extend your MCP servers with telemetry, tracing, and rate-limiting plugins.
 - **Instant Deployments**: Deploy generated servers or custom applications with one click.
 - **Project Management**: Organize your workspaces, monitor usage, and manage environments effortlessly.
 - **Team Collaboration**: Manage granular access control and collaborate securely.
-- **Integrations Marketplace**: Extend your projects with community-built plugins.
 
 ## Local Development
 

@@ -1,0 +1,61 @@
+---
+title: "Turn GitHub REST API into MCP Tools in 2 Minutes | Karada.ai"
+description: "Step-by-step recipe to convert the official GitHub OpenAPI specification into a high-performance Model Context Protocol (MCP) server."
+---
+
+GitHub provides an extensive OpenAPI specification describing its REST API endpoints. This recipe demonstrates how to ingest GitHub's OpenAPI definition with Karada Auto-MCP to instantly give Claude Desktop and Cursor access to repository management, issues, pull requests, and releases.
+
+---
+
+## 1. Obtain GitHub's OpenAPI Specification
+
+GitHub maintains public OpenAPI schemas for its REST API. For this recipe, you can use the core GitHub REST API spec URL:
+
+```text
+https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json
+```
+
+---
+
+## 2. Ingest with Karada Auto-MCP
+
+1. Navigate to your [Karada Dashboard](https://karada.ai) and click **Create Project**.
+2. Select the **Auto-MCP** template.
+3. Choose **OpenAPI v3** and paste the GitHub spec URL into the specification input.
+4. Karada automatically parses GitHub's endpoints into discrete MCP tools (e.g., `repos_create_issue`, `pulls_list`, `repos_get`).
+5. Filter or select the specific tool subsets your AI assistant requires.
+
+---
+
+## 3. Configure GitHub Personal Access Token (PAT)
+
+GitHub API requests require authentication. In your project's **Environment Variables** tab:
+
+- **Key**: `GITHUB_TOKEN`
+- **Value**: Your fine-grained or classic GitHub Personal Access Token (`ghp_...`)
+
+Karada's proxy engine maps this token to the `Authorization: Bearer <GITHUB_TOKEN>` header for all outbound tool invocations.
+
+---
+
+## 4. Deploy and Connect to Claude Desktop
+
+Click **Deploy** to generate your hosted HTTPS endpoint, or download the local binary.
+
+Add the server to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "github-tools": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/client-cli", "connect", "https://github-mcp.karada.ai/sse"],
+      "env": {}
+    }
+  }
+}
+```
+
+Restart Claude Desktop. You can now prompt Claude:
+- *"List all open pull requests authored by @octocat in our repository."*
+- *"Create an issue titled 'Fix CSS layout bug' with label 'frontend'."*

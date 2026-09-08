@@ -1,49 +1,46 @@
 ---
-title: "Guide: Team Collaboration"
-description: "Manage workspaces and role-based access control."
+title: "Team Workspaces & Role-Based Access Control (RBAC) | Karada.ai"
+description: "Collaborate securely on MCP servers with granular team workspaces, role-based permissions (Owner, Admin, Member), and centralized project governance."
 ---
 
-Modern development relies on collaboration. Karada uses **Workspaces** (often referred to as Teams) to allow multiple developers, managers, and stakeholders to interact with projects, billing, and settings collaboratively.
+Modern engineering teams build and operate MCP servers collaboratively. Karada provides **Team Workspaces** with granular Role-Based Access Control (RBAC) to ensure developers, DevOps engineers, and security teams have appropriate access to projects, deployments, secrets, and billing.
 
-## Workspaces Overview
+---
 
-A Workspace acts as a shared environment where your Projects reside.
+## Workspaces Architecture
 
-- You can belong to multiple workspaces simultaneously.
-- You switch between workspaces using the Team Switcher in the top-left corner of the Karada Dashboard.
-- Billing ties directly to the Workspace, not to individual user accounts.
+A Workspace is an isolated multi-tenant environment containing your projects, custom plugins, and gateway endpoints:
 
-When you create an account, Karada automatically provisions a Personal Workspace for you. You can create additional Team Workspaces at any time.
+- **Multi-Workspace Membership**: Join multiple team or enterprise workspaces with a single user login.
+- **Context Switcher**: Rapidly switch between personal, staging, and production workspaces from the top navigation bar.
+- **Centralized Billing**: Subscription tiers and resource limits apply at the workspace level rather than per seat.
 
 ---
 
 ## Role-Based Access Control (RBAC)
 
-To protect your critical infrastructure, Karada implements strict Role-Based Access Control. When you invite team members to your workspace, you must assign them a specific role.
+Karada enforces strict RBAC to prevent unauthorized secret exposure or unapproved production deployments:
 
 <ResponseField name='Owner' type='Highest Privilege'>
-  Owners hold unrestricted access. They can delete the workspace, manage billing
-  details, delete projects, and modify team members' roles.
+  Owners hold full administrative control. They manage payment methods and subscriptions, invite or remove team members, configure gateway domains, and delete workspaces or projects.
 </ResponseField>
 
 <ResponseField name='Admin' type='High Privilege'>
-  Admins can manage projects, trigger deployments, add environment variables,
-  and view all usage statistics. They cannot delete the workspace or modify
-  billing.
+  Admins can create projects, generate Auto-MCP servers, configure plugins, manage runtime environment variables, and trigger deployments. They cannot modify billing or delete the workspace.
 </ResponseField>
 
 <ResponseField name='Member' type='Standard Privilege'>
-  Members can view projects, deployment logs, and usage statistics.
-  They cannot trigger new deployments, view raw environment variable values, or
-  modify team settings.
+  Members can inspect projects, review generated tool catalogs, and query usage telemetry. They cannot expose raw secret values or trigger unreviewed production rollouts.
 </ResponseField>
 
-### Inviting Members
+---
 
-Follow these steps to invite a new team member:
+## Inviting Team Members
 
-1. Navigate to your Workspace settings.
+To add collaborators to your workspace:
+
+1. Open your **Workspace Settings**.
 2. Select the **Members** tab.
-3. Click the **Invite Member** button.
-4. Enter the user's email address and select their designated role.
-5. The user receives an email invitation linking them to your workspace upon acceptance.
+3. Click **Invite Member**.
+4. Enter your collaborator's email and assign their role (**Admin** or **Member**).
+5. The invitee receives a secure link to join your workspace immediately.

@@ -1,68 +1,45 @@
 ---
-title: "Guide: Account Settings"
-description: "Manage your profile, authentication, and account preferences."
+title: "Account Profile & Security Preferences | Karada.ai"
+description: "Manage personal credentials, SSO identity authentication, workspace memberships, and account settings in Karada.ai."
 ---
 
-Your account settings control your personal identity on the Karada platform. Access them by clicking your avatar in the top-right corner and selecting **Account Settings**.
-
-## Profile
-
-### Avatar
-
-Your avatar displays next to your name across the platform — in team lists, deployment logs, and comments. Click on your existing avatar to upload a new one from your device.
-
-<Note>
-  An avatar remains optional but we strongly recommend adding one to improve team collaboration.
-</Note>
-
-### Display Name
-
-Set a display name that other team members see. This can be your full name or any alias you prefer.
-
-- Maximum **32 characters**.
-- Click **Save** to apply changes.
-
-### Email
-
-Karada uses your primary email for:
-
-- **Login authentication**
-- **Account-related notifications** (deployment alerts, team invitations)
-
-Your email displays with a **Primary** badge and you cannot change it through the UI. Contact support if you need to update it.
+Your account preferences control your personal profile, Single Sign-On (SSO) identity links, and workspace associations on the Karada platform. Access them anytime by clicking your avatar in the upper right and selecting **Account Settings**.
 
 ---
 
-## Authentication
+## Profile Settings
 
-Karada handles authentication securely via third-party identity providers (such as Google or GitHub).
+### Avatar & Identity
 
-- **No passwords to manage**: Your identity provider handles authentication.
-- **Automatic session management**: Karada securely manages your session access.
-- **Two-Factor Authentication (2FA)**: Enable 2FA on your identity provider for an additional layer of security on your Karada account.
+Your avatar appears across deployment activity logs, project audit trails, and team member directories. Click your avatar to upload a custom image.
 
----
+### Display Name & Primary Email
 
-## Billing
-
-The **Billing** section allows workspace owners to manage their subscription plan and payment methods. Billing always associates with a **Workspace**, not an individual account.
-
-To view or update billing:
-
-1. Navigate to your **Account Settings**.
-2. Select the **Billing** tab in the sidebar.
+- **Display Name**: The human-readable alias visible to teammates across workspaces (up to 32 characters).
+- **Primary Email**: Used for account authentication, deployment alerts, and invitation links. Managed via your OAuth SSO identity provider.
 
 ---
 
-## Danger Zone
+## Secure Authentication & SSO
 
-At the bottom of your account settings, you will find the **Delete Account** section.
+Karada prioritizes infrastructure security by integrating with verified identity providers (GitHub, Google):
+
+- **Zero Passwords**: Eliminates password reuse vulnerabilities.
+- **Hardware MFA Support**: Seamlessly inherits multi-factor authentication (MFA / 2FA) enforced by your identity provider.
+- **Session Tokens**: Protected by HTTP-only, secure cookies with strict expiration lifetimes.
+
+---
+
+## Workspace Billing Access
+
+Subscription management is associated with **Workspaces** rather than individual accounts. Workspace owners can access invoices, upgrade tiers, and update credit cards under **Account Settings → Billing**.
+
+---
+
+## Decommissioning & Account Deletion
+
+The **Danger Zone** allows you to permanently terminate your account:
 
 <Warning>
-  Deleting your account is **permanent and irreversible**. This action will:
-  - Remove your personal workspace and all its projects
-  - Revoke your access to any team workspaces
-  - Delete all associated deployment history
-
-  You must confirm this action before the deletion proceeds.
+  Account deletion is permanent. Deleting an account dissolves your personal workspace, stops active MCP server containers, purges environment secrets, and detaches you from team workspaces.
 </Warning>

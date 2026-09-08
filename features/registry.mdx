@@ -1,61 +1,57 @@
 ---
-title: "Guide: MCP Registry"
-description: "Discover, publish, and connect pre-built MCP servers."
+title: "MCP Server Registry: Discover & Connect Pre-Built Tools | Karada.ai"
+description: "Browse, connect, and publish verified Model Context Protocol (MCP) servers for Stripe, GitHub, Slack, and custom enterprise APIs."
 ---
 
-The Karada Registry is a curated catalog of production-ready MCP servers. Browse verified servers for popular APIs, connect them to your Gateway with one click, or publish your own for the community.
+The **Karada Registry** is a curated catalog of production-ready Model Context Protocol (MCP) servers. Browse verified servers for popular SaaS APIs, connect them directly to your Karada Gateway with one click, or publish your own for team and community discovery.
+
+---
 
 ## Browsing the Registry
 
-The Registry lists MCP servers with verified metadata:
+The Registry lists MCP servers complete with verified metadata:
 
-- **Name and description** — what the server does
-- **Available tools** — the complete tool list with input schemas
-- **Quickstart tabs** — ready-to-use configuration snippets for Claude Desktop, Cursor, and other clients
-- **Environment variables** — required credentials and configuration
-- **Repository and install command** — source code and setup instructions
+- **Server Title & Description**: Functional overview and provider details
+- **Tool Catalog**: Full list of callable tools with JSON input parameter schemas
+- **Quickstart Configs**: Copy-ready configurations for Claude Desktop, Cursor, and Streamable HTTP clients
+- **Required Secrets**: Environment variables and authentication headers needed at runtime
+- **Repository Links**: Source code and deployment manifests
 
-Use the search and filter controls to find servers by name, category, or tool count.
+Use the search and category filters to locate pre-built servers for databases, analytics platforms, CRMs, and developer tools.
 
 ---
 
 ## Connecting a Registry Server to Your Gateway
 
-From any Registry listing detail page, click **Connect to Gateway** to add the server to your active MCP Gateway. Karada will:
+From any Registry detail view, click **Connect to Gateway** to multiplex the server into your active MCP Gateway:
 
-1. Create a namespaced connection using the server's canonical prefix
-2. Configure the upstream URL automatically
-3. Prompt you to provide any required API keys or credentials
+1. Karada creates an isolated namespaced connection using the server's canonical prefix (e.g., `github__`, `stripe__`).
+2. Configures the upstream Streamable HTTP endpoint automatically.
+3. Prompts for required API keys or secrets, storing them in your encrypted vault.
 
-Once connected, all tools from that server appear in your Gateway's unified tool list immediately.
+All tools from the newly connected server appear in your Gateway's unified tool catalog immediately.
 
 ---
 
 ## Publishing to the Registry
 
-If you build an MCP server on Karada (via Auto-MCP or a connected Git repository), you can publish it to the Registry for others to discover and use.
+Any MCP server built on Karada—via Auto-MCP or custom code—can be published to the Registry:
 
-### How to Publish
+1. Open your **Project Dashboard**.
+2. Select **Publish to Registry** from the project menu.
+3. Karada runs automated compliance checks to ensure your server responds to protocol handshakes (`initialize` and `tools/list`).
+4. Upon passing validation, your server is indexed with live documentation and parameter schemas.
 
-1. Navigate to your **Project Dashboard**.
-2. Click **Publish to Registry** from the project actions menu.
-3. Karada validates that your server responds to MCP `initialize` and `tools/list` correctly.
-4. Once published, your server appears in the Registry with its tool catalog and quickstart instructions.
+### Claim Precedence & Verification
 
-### Claim Precedence
-
-For popular APIs (e.g., Stripe, GitHub, Slack), multiple publishers may offer MCP servers. Karada enforces **claim precedence** — the first verified publisher for a given API namespace holds the canonical listing. Additional publishers can submit claim requests, which are reviewed by the Karada team.
+For high-volume public APIs (such as Stripe, GitHub, and Jira), Karada enforces **claim precedence**. The initial verified publisher holds the canonical listing. Additional contributors can submit claim requests or publish specialized variants under dedicated namespaces.
 
 ---
 
 ## Registry Plugins
 
-The Registry also supports **plugins** — packaged extensions that add custom business logic, auth flows, or data transforms to any MCP server.
+The Registry also indexes **Plugins**—modular extensions that inject telemetry, caching, or security logic into any MCP server:
 
-From the Registry plugin section:
-
-- **List** available plugins for your team
-- **Create** new plugins with custom handlers
-- **Publish** plugins to make them available across your organization
-
-Plugins follow Karada's composable architecture: they hook into the request lifecycle without modifying base server code.
+- Discover approved plugins for your organization
+- Package custom handlers and deploy them across team workspaces
+- Hook into the MCP request lifecycle without altering upstream server code

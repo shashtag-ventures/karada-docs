@@ -1,35 +1,42 @@
 ---
-title: Welcome to Karada
-description: "The intelligent deployment and API integration platform built for the AI era."
+title: "Karada.ai Documentation: Auto-Generate Go MCP Servers from OpenAPI"
+description: "The high-performance platform to transform OpenAPI and Swagger specifications into Model Context Protocol (MCP) servers for Claude, Cursor, and AI agents."
 ---
 
-Karada accelerates your development workflow by seamlessly bridging the gap between traditional REST APIs and modern AI agents. Whether you operate as a solo developer shipping a new app or within a massive team managing complex microservices, Karada provides the infrastructure you need to deploy, scale, and integrate faster.
+Karada.ai accelerates AI application development by seamlessly bridging traditional REST APIs and modern AI agents. Whether operating as an independent developer shipping an AI agent or an engineering team exposing microservices, Karada provides the infrastructure to generate, host, and scale Model Context Protocol (MCP) servers with zero manual boilerplate.
+
+> **What is Karada.ai?**  
+> **Karada.ai** is a proprietary language-agnostic platform and Go engine that automatically translates OpenAPI (v3) and Swagger (v2) specifications into production-ready [Model Context Protocol (MCP)](https://modelcontextprotocol.io) servers. It turns REST API endpoints into native tools that AI assistants (such as Claude Desktop, Cursor, and ChatGPT) can invoke with structured parameters and secure credential proxying.
+
+---
 
 ## Why Karada?
 
-In the era of AI-driven development, tools like Claude, Cursor, and ChatGPT need to interact with your data. Traditionally, this requires you to write custom wrapper code for every single API to make it compatible with these AI systems.
+AI coding assistants and autonomous agents need access to enterprise data and actions. Traditionally, developers spend hours writing bespoke tool wrappers, managing runtime proxies, and maintaining custom authentication middleware for each endpoint.
 
-Karada solves this by providing **Auto-MCP**: an automated pipeline that converts standard OpenAPI and Swagger specifications into fully-functional servers implementing the [Model Context Protocol (MCP)](https://modelcontextprotocol.io). This transforms your standard API endpoints into native tools that your AI assistant can immediately understand and use.
+Karada solves this through **Auto-MCP**: an automated translation pipeline powered by a high-performance Go engine. Pass an OpenAPI or Swagger spec, and Karada outputs an MCP server with tools, parameter schemas, and dynamic authentication pre-configured.
 
 <CardGroup cols={2}>
   <Card title='Auto-MCP Generation' icon='robot' href='/features/auto-mcp'>
-    Generate complete MCP servers instantly from any OpenAPI or Swagger
-    specification. Expose your APIs to AI assistants with zero handwritten code.
+    Generate complete Go MCP servers instantly from OpenAPI v3 or Swagger v2 specifications with zero handwritten code.
   </Card>
-  <Card title='Project Management' icon='folder-open' href='/features/projects'>
-    Organize your work with dedicated workspaces. Track real-time usage metrics,
-    configure settings, and manage environments effortlessly.
+  <Card title='Unified MCP Gateway' icon='network-wired' href='/features/gateway'>
+    Multiplex multiple MCP servers behind a single endpoint. Expose all your tools to AI clients through one connection URL.
+  </Card>
+  <Card title='Plugins Marketplace' icon='puzzle-piece' href='/features/plugins'>
+    Extend your servers with modular plugins for telemetry, distributed request tracing, security headers, and rate limiting.
   </Card>
   <Card title='Instant Deployments' icon='rocket' href='/features/deployments'>
-    Deploy your generated MCP servers and web applications with a single click.
-    Enjoy automatic builds and scalable infrastructure.
-  </Card>
-  <Card title='Team Collaboration' icon='users' href='/features/teams'>
-    Invite team members, manage granular role-based access control (RBAC), and
-    collaborate seamlessly across multiple projects.
+    Deploy generated MCP servers with one click on Karada cloud infrastructure or download standalone local binaries.
   </Card>
 </CardGroup>
 
+---
+
 ## Getting Started
 
-Ready to dive in? Head over to the [Quickstart Guide](/quickstart) to get up and running with your first Auto-MCP server in minutes.
+Ready to convert your first API? Follow our quickstart guide to deploy an Auto-MCP server in under three minutes:
+
+<Card title='Quickstart Tutorial' icon='bolt' href='/quickstart'>
+  Follow the step-by-step walkthrough to import an OpenAPI spec, generate tools, and connect to Claude Desktop.
+</Card>

@@ -1,0 +1,57 @@
+---
+title: "Connect Stripe OpenAPI to AI Agents with Karada Auto-MCP | Karada.ai"
+description: "Step-by-step recipe to convert Stripe's OpenAPI specification into a secure Model Context Protocol (MCP) server for Claude and Cursor."
+---
+
+Stripe powers billing and payment infrastructure globally. Converting Stripe's OpenAPI specification into an MCP server allows financial analysts and customer support agents to safely query invoices, retrieve subscription states, and inspect customer records directly in natural language.
+
+---
+
+## 1. Obtain Stripe's OpenAPI Specification
+
+Download or link to Stripe's official public OpenAPI specification:
+
+```text
+https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json
+```
+
+---
+
+## 2. Ingest via Karada Auto-MCP
+
+1. Log into your **Karada Dashboard** and create an **Auto-MCP** project.
+2. Select **OpenAPI v3** and supply Stripe's specification URL.
+3. Review the extracted tools. For security, enable only read operations for support agents (e.g., `customers_retrieve`, `invoices_list`, `subscriptions_retrieve`).
+
+---
+
+## 3. Configure Stripe Secret API Key
+
+Configure Stripe's Bearer authentication under **Project Settings → Environment Variables**:
+
+- **Key**: `STRIPE_SECRET_KEY`
+- **Value**: Your restricted or secret key (`sk_live_...` or `sk_test_...`)
+
+Karada encrypts the key at rest (AES-256-GCM) and injects it into outbound requests at the proxy edge. The LLM only receives tool parameters—your API key is never exposed to the model.
+
+---
+
+## 4. Connect to Cursor or Claude Desktop
+
+Deploy your project to obtain your secure SSE endpoint:
+
+```json
+{
+  "mcpServers": {
+    "stripe-tools": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/client-cli", "connect", "https://stripe-mcp.karada.ai/sse"],
+      "env": {}
+    }
+  }
+}
+```
+
+Prompt your AI agent:
+- *"Find all overdue invoices for customer cus_12345."*
+- *"Check the current status of subscription sub_67890."*

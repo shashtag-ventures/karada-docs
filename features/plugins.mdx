@@ -1,0 +1,104 @@
+---
+title: "MCP Plugins & Extensions: Extend Your Servers | Karada.ai"
+description: "Discover, install, and publish plugins for Karada MCP servers to add analytics, rate limiting, security headers, and request tracing."
+---
+
+The **Plugins Marketplace** allows you to discover, install, and configure modular plugins that extend the capabilities of your Karada MCP servers. Plugins inject production-grade middleware into your generated servers—such as real-time analytics, distributed request tracing, security headers, and custom rate limiting—with zero boilerplate code.
+
+> **What are Karada Plugins?**  
+> Karada Plugins are modular extensions that augment your Auto-MCP servers and gateway proxies. They run alongside your server runtime to provide observability, access control, and runtime transformations without requiring manual code changes to your underlying API or MCP tools.
+
+---
+
+## Browsing Available Plugins
+
+Navigate to the **Plugins** tab in your Project Dashboard to explore verified plugins. Each plugin card provides:
+
+- **Display Name** and package identifier (e.g., `karada-plugin-analytics`)
+- **Plugin Overview**: A summary of its functionality and supported MCP runtime hooks
+- **Status Badge**: Clear indication whether the plugin is **Available** or **Installed**
+- **Documentation Link**: Configuration options and schema details
+
+---
+
+## Installing a Plugin
+
+<Steps>
+  <Step title='Find a Plugin'>
+    Open the **Plugins** tab in your project dashboard and browse the available extensions in the marketplace.
+  </Step>
+  <Step title='Click Install'>
+    Click **Install Plugin** on the desired plugin card. A secure configuration modal will open.
+  </Step>
+  <Step title='Configure Parameters'>
+    Provide the required configuration values. For example, an analytics plugin requires a tracking ID, while a rate-limiting plugin accepts requests-per-minute thresholds. Fields marked with an asterisk (*) are required.
+  </Step>
+  <Step title='Save & Activate'>
+    Click **Save & Install**. Karada immediately applies the plugin to your project environment and restarts your MCP runtime with the new middleware active.
+  </Step>
+</Steps>
+
+---
+
+## Managing Installed Plugins
+
+Active plugins appear in your project's **Active Plugins** view:
+
+- **Configure**: Update environment settings, secrets, or thresholds without redeploying from scratch.
+- **Toggle State**: Temporarily disable a plugin during debugging without losing your saved configuration.
+- **Uninstall**: Safely remove the plugin from your server runtime.
+
+---
+
+## Developing & Publishing Plugins
+
+Karada supports custom and community-developed plugins. To publish a plugin to the marketplace or your private team workspace, define a standard plugin manifest.
+
+### Plugin Manifest Specification
+
+The manifest describes your plugin's metadata, repository source, and runtime configuration schema:
+
+| Field | Required | Description |
+| :--- | :---: | :--- |
+| **Display Name** | ✅ | Human-readable title displayed in the marketplace |
+| **Package Identifier** | ✅ | Unique namespace string (e.g., `karada-plugin-rate-limiter`) |
+| **Description** | ✅ | Concise explanation of the plugin's functionality |
+| **Source URL** | ✅ | Public or private Git repository hosting the plugin source |
+| **Version** | ✅ | Semantic version string (e.g., `1.0.0`) |
+| **Author** | ✅ | Maintainer or organization name |
+| **Configuration Schema** | ✅ | JSON array defining dynamic input fields for the setup modal |
+
+### Configuration Schema Example
+
+The configuration schema drives the dynamic form rendered during installation:
+
+```json
+[
+  {
+    "key": "tracking_id",
+    "label": "Tracking ID",
+    "type": "string",
+    "required": true,
+    "placeholder": "UA-XXXXXXX-X",
+    "description": "Your telemetry or analytics tracking identifier."
+  },
+  {
+    "key": "api_secret",
+    "label": "API Secret Key",
+    "type": "password",
+    "required": true,
+    "secret": true,
+    "description": "API secret token passed securely to the plugin runtime."
+  },
+  {
+    "key": "rate_limit_rpm",
+    "label": "Requests Per Minute",
+    "type": "number",
+    "required": false,
+    "default": 60,
+    "description": "Maximum requests permitted per minute per client."
+  }
+]
+```
+
+Supported schema data types include `string`, `password`, `number`, and `boolean`. Fields marked with `"secret": true` are encrypted at rest and masked in the UI to protect production credentials.
