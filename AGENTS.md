@@ -28,7 +28,7 @@
 ## SEO, AEO & Agentic Discoverability Standards
 
 - **Frontmatter Requirements**:
-  Every `.mdx` file must define an explicit `title` (ending with `| Karada.ai`) and an action-oriented `description` (120–160 characters).
+  Every `.mdx` file must define an explicit `title` (clean without `| Karada.ai` suffix, as Mintlify handles site branding automatically), a concise `sidebarTitle` for the navigation table of contents, and an action-oriented `description` (120–160 characters).
 - **AEO Definition Snippets**:
   High-value conceptual pages must begin with a clear blockquote definition (`> **What is [Feature]?**`) to facilitate answer engine extraction by Perplexity, ChatGPT Search, Claude, and Gemini.
 - **Diátaxis Information Architecture**:
