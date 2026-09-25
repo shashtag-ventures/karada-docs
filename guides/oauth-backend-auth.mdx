@@ -1,12 +1,12 @@
 ---
 title: "Backend Authentication & Managed OAuth 2.1"
 sidebarTitle: "OAuth 2.1 & Backend Auth"
-description: "How to authenticate AI agents with Karada Managed OAuth 2.1 and verify end-user identity in your backend using JWKS JWT or Header Injection."
+description: "How to authenticate AI agents with Karada Managed OAuth 2.1 and verify end-user identity in your backend using RS256 JWKS JWT."
 ---
 
 Karada provides an end-to-end **Managed OAuth 2.1 Provider & JWKS Identity Relay Engine**. When end-users interact with your MCP server in Claude Desktop or Cursor, they authenticate seamlessly via a browser popup without sharing static API keys.
 
-Your upstream backend can verify who is making the tool call using either **Header Injection** or **Asymmetric RS256 JWKS JWT Verification**.
+Your upstream backend verifies who is making the tool call using standard **Asymmetric RS256 JWKS JWT Verification**.
 
 ---
 
@@ -30,23 +30,11 @@ sequenceDiagram
     Agent->>Provider: POST /api/v1/oauth/token (code + code_verifier)
     Provider-->>Agent: Access Token (RS256 JWT) + Refresh Token
     Agent->>MCP: POST /mcp (JSON-RPC + Bearer JWT)
-    MCP->>Backend: HTTP Call + Headers (Authorization: Bearer <jwt> & X-Karada-User-Id)
+    MCP->>Backend: HTTP Call (Authorization: Bearer <jwt>)
     Backend->>Provider: GET /.well-known/jwks.json (Cached public key)
     Backend-->>MCP: 200 OK (User-scoped data)
     MCP-->>Agent: JSON-RPC Result
 ```
-
----
-
-## Backend Identity Delivery Options
-
-When configuring your MCP server in Karada, you can select how your upstream backend receives the verified user identity:
-
-| Delivery Option | Mechanism | Best For | Security Model |
-| :--- | :--- | :--- | :--- |
-| **Both (Recommended)** | `Authorization: Bearer <jwt>` + `X-Karada-User-Id` / `X-Karada-User-Email` | SaaS APIs & Microservices | Full RS256 cryptographic verification with fast header convenience |
-| **Header Injection Only** | `X-Karada-User-Id` & `X-Karada-User-Email` HTTP headers | VPC / Internal APIs | Zero-crypto setup; trusts Karada MCP proxy layer |
-| **Bearer JWT + JWKS** | Standard RS256 `Authorization: Bearer <jwt>` | Public Endpoints / Zero-Trust | Independent cryptographic verification against `https://api.karada.ai/.well-known/jwks.json` |
 
 ---
 
@@ -59,16 +47,17 @@ Please implement authentication middleware for Karada Managed OAuth 2.1 in our b
 
 Context & Specifications:
 - Our API receives tool execution requests from an AI Agent via a Karada Go MCP Server.
-- Karada forwards authenticated user identity in two ways:
-  1. RS256 Bearer JWT in the `Authorization: Bearer <token>` header, signed by Issuer: `https://karada.ai` with public keys at `https://api.karada.ai/.well-known/jwks.json`.
-  2. Verified headers `X-Karada-User-Id` (user UUID) and `X-Karada-User-Email`.
-- Token payload contains: `{ sub: "<user_id>", email: "<email>", iss: "https://karada.ai", aud: "<client_id>" }`.
+- The MCP server sends requests with `Authorization: Bearer <token>`.
+- Token Issuer: `https://karada.ai`
+- Public JWKS Endpoint: `https://api.karada.ai/.well-known/jwks.json`
+- Token Claims: `sub` (User UUID), `email` (User Email), `aud` (Client ID), `exp`, `iss`.
 
-Task:
-- Create a reusable middleware for our backend framework to validate the RS256 JWT using JWKS (or extract X-Karada-User-Id/X-Karada-User-Email headers).
-- Attach the authenticated user object (`{ id, email }`) to the request context.
-- Protect our API routes and return 401 Unauthorized for missing or invalid tokens.
-- Add unit tests verifying valid tokens, expired tokens, and missing credentials.
+Requirements:
+1. Create a clean, production-ready middleware matching our backend framework (Express, FastAPI, Chi, Spring, NestJS, etc.).
+2. Validate the RS256 Bearer JWT against Karada's public JWKS endpoint (https://api.karada.ai/.well-known/jwks.json).
+3. Extract the user identity (`{ id: claims.sub, email: claims.email }`) and attach it to the request context (e.g. `req.user` or request context).
+4. Return 401 Unauthorized if the Bearer token is missing, invalid, or expired.
+5. Add unit tests verifying valid tokens, expired tokens, and missing credentials.
 ```
 
 ---
@@ -258,25 +247,6 @@ If you prefer to wire up the middleware manually, choose your backend runtime be
 
     	http.ListenAndServe(":8080", mux)
     }
-    ```
-  </Tab>
-
-  <Tab title="Header Injection (Fast / Zero-Crypto)">
-    If you selected **Header Injection Only** or your backend runs in a private VPC behind Karada:
-
-    ```javascript
-    // Node.js Express Example
-    app.use((req, res, next) => {
-      const userId = req.headers['x-karada-user-id'];
-      const userEmail = req.headers['x-karada-user-email'];
-
-      if (!userId) {
-        return res.status(401).json({ error: 'Missing X-Karada-User-Id header' });
-      }
-
-      req.user = { id: userId, email: userEmail };
-      next();
-    });
     ```
   </Tab>
 </Tabs>
