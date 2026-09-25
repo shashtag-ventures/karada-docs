@@ -49,9 +49,14 @@
             ]
           },
           {
+            "group": "Authentication & Security",
+            "pages": ["guides/oauth-backend-auth"]
+          },
+          {
             "group": "Account",
             "pages": ["features/account", "features/usage-billing"]
           },
+
           {
             "group": "Playbooks",
             "pages": [
