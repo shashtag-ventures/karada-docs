@@ -1,13 +1,14 @@
 ---
-title: "Unified MCP Gateway: Multiplex & Route Multiple MCP Tools"
+title: "Unified MCP Gateway: Dual-Audience Multiplexing & Distribution"
 sidebarTitle: "MCP Gateway"
-description: "Multiplex dozens of Model Context Protocol (MCP) servers behind a single high-performance gateway endpoint with automatic namespacing and secret injection."
+description: "Multiplex dozens of Model Context Protocol (MCP) servers behind a single high-performance gateway endpoint with unified harness configuration and creator distribution."
 ---
 
-The **MCP Gateway** is Karada's unified multiplexer: a single Streamable HTTP endpoint that fans out to all your connected MCP servers. Instead of maintaining 10–15 individual server configs in your AI client, you add **one Karada Gateway URL** and manage all tool permissions, namespaces, and secrets from a central dashboard.
+The **Karada MCP Gateway** is a unified protocol multiplexer and distribution hub built for the agentic AI era. Instead of maintaining dozens of individual server configs across different developer machines and AI assistants, teams configure their tool catalog **once on Karada** and connect via a single Streamable HTTP endpoint (`gateway.karada.ai/mcp`).
 
-> **What is the Karada MCP Gateway?**  
-> The Karada MCP Gateway is a unified protocol multiplexer that aggregates multiple upstream MCP servers into a single Streamable HTTP endpoint. Instead of configuring separate servers for every tool in Claude Desktop or Cursor, clients connect to one gateway URL that concurrently routes requests, prevents tool name collisions with automatic namespaces, and securely injects credentials.
+> **Dual Audience & Platform Architecture:**  
+> - **For Developers & Enterprises (B2C/B2B Product)**: Set up configurations once on Karada and use seamlessly across multiple harnesses (Cursor, Claude Code, Windsurf) while enforcing organizational security standards and tool access policies across the entire team.  
+> - **For MCP Creators & API Teams (Distribution Play)**: A direct distribution channel to get your tools directly into developers' and agents' active environments with verified 1-click installation.
 
 ---
 
@@ -15,8 +16,8 @@ The **MCP Gateway** is Karada's unified multiplexer: a single Streamable HTTP en
 
 ```mermaid
 sequenceDiagram
-    participant AI as AI Client (Cursor / Claude)
-    participant GW as Karada Gateway
+    participant AI as AI Harness (Cursor / Claude Code / Windsurf)
+    participant GW as Karada Unified Gateway
     participant MCP1 as MCP Server A (Stripe)
     participant MCP2 as MCP Server B (GitHub)
     participant MCP3 as MCP Server C (Internal API)
@@ -28,7 +29,7 @@ sequenceDiagram
     MCP1-->>GW: 5 tools
     MCP2-->>GW: 3 tools
     MCP3-->>GW: 8 tools
-    GW-->>AI: 16 namespaced tools
+    GW-->>AI: 16 namespaced tools (single endpoint)
     AI->>GW: tools/call (stripe__createCustomer)
     GW->>MCP1: tools/call (createCustomer)
     MCP1-->>GW: result
@@ -46,6 +47,7 @@ You can create **multiple gateways** to organize tools by team or security conte
 - **Dedicated Authentication Token**: Scoped per gateway endpoint
 - **Independent Server Inventory**: Attach only the MCP servers needed for that context
 - **Granular Tool Toggles**: Enable or disable specific tools without disconnecting the upstream server
+- **Organizational Standards**: Enforce tool versions and access policies across all team members
 
 Switch between gateways in the dashboard switcher or issue scoped tokens for different developers and automated workflows.
 
@@ -56,15 +58,15 @@ Switch between gateways in the dashboard switcher or issue scoped tokens for dif
 From the **Tools** tab in your Gateway dashboard, connect MCP servers in two ways:
 
 1. **From the Registry**: Browse verified servers in Karada's curated MCP registry and connect with one click.
-2. **Custom URL**: Provide any Streamable HTTP or SSE MCP server endpoint. Karada introspects the upstream to discover available tools and parameter schemas automatically.
+2. **Custom URL**: Provide any Streamable HTTP MCP server endpoint. Karada introspects the upstream to discover available tools and parameter schemas automatically.
 
 ### Automated Tool Namespacing
 
 To prevent naming collisions when multiple servers define generic tools like `search` or `create_user`, Karada prefixes tool identifiers with the server namespace (e.g., `github__search`, `notion__search`).
 
-### Credential Vault & Runtime Injection
+### Server-Side Credential Delegation
 
-Many upstream MCP servers require API keys or OAuth tokens. The Gateway includes a zero-knowledge secret vault per connected server:
+Many upstream MCP servers require API keys or OAuth tokens. The Gateway handles server-side credential delegation:
 
 - Define header names and secret values in the dashboard
 - Karada injects credentials directly into upstream HTTP requests at the gateway edge
@@ -73,9 +75,9 @@ Many upstream MCP servers require API keys or OAuth tokens. The Gateway includes
 
 ---
 
-## Autonomous AI Agent
+## Autonomous AI Agent (`karada_agent`)
 
-The Gateway includes a built-in **autonomous AI agent** capable of executing multi-step workflows across your connected tools:
+The Gateway includes a built-in **autonomous AI agent** (`karada_agent`) capable of executing multi-step workflows across your connected tools without bloating your AI assistant's prompt context:
 
 ```json
 {
@@ -87,8 +89,8 @@ The Gateway includes a built-in **autonomous AI agent** capable of executing mul
 The agent:
 1. Analyzes the merged tool catalog across all connected MCP servers
 2. Plans a step-by-step sequence of operations
-3. Executes calls sequentially, passing output context between tools
-4. Returns a complete execution trace and final synthesized answer
+3. Executes calls server-side, passing output context between tools
+4. Returns a complete execution trace and final synthesized answer, saving up to 95% of client context tokens.
 
 ---
 
@@ -96,8 +98,8 @@ The agent:
 
 ### Standard vs Enhanced Mode
 
-- **Standard**: Core multiplexing, tool routing, namespace isolation, and credential injection.
-- **Enhanced**: Adds dynamic real-time tool discovery, autonomous task execution, and higher throughput limits.
+- **Standard**: Core multiplexing, tool routing, namespace isolation, and credential delegation.
+- **Enhanced**: Adds dynamic real-time tool discovery, autonomous task execution (`karada_agent`), and higher throughput limits.
 
 ### Dynamic Discovery
 

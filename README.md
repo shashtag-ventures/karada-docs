@@ -1,30 +1,23 @@
 # Karada Documentation
 
-> The intelligent deployment and API integration platform built for the AI era.
+> The official developer documentation for **Karada.ai**, the complete AI tool infrastructure platform to auto-generate, productionize, host, and distribute Model Context Protocol (MCP) servers from APIs.
 
-## Why Karada Exists
+## The 4 Platform Layers
 
-AI agents need to interact with your data, but they cannot natively understand complex REST APIs. Karada solves this by automatically bridging the gap between traditional APIs and modern AI assistants. If your API has an OpenAPI or Swagger specification, Karada instantly generates a Model Context Protocol (MCP) server that acts as a secure proxy. No more writing custom wrapper code just to let AI interact with your systems.
+1. **Build & CI/CD Sync**: Auto-compiles APIs (OpenAPI & Postman) into MCP servers. Keeps tools in sync with CI/CD on every API deploy and spec drift.
+2. **Production Middleware**: Bolt on 1-click composable plugins (Sentry error tracing, GA4 telemetry, Slack alert webhooks, rate limits, AI firewalls) without modifying server code.
+3. **Managed High-Throughput Hosting**: Deploy stateless Streamable HTTP runtimes in Go with sub-5ms latency and 10,000+ concurrent stream support.
+4. **Unified Gateway**: Dual-audience gateway—configure tools once across Cursor, Claude Code, and Windsurf while enforcing org standards; distribute tools directly to active agent fleets.
 
 ## Quick Start
 
-The fastest way to get your API talking to an AI agent is through the Auto-MCP quickstart.
+The fastest way to get your API talking to an AI agent is through the Auto-MCP quickstart:
 
 1. Navigate to your **Dashboard** at [Karada.ai](https://karada.ai).
-2. Create a new **Project** and select **Auto-MCP**.
-3. Provide the URL to your API specification (OpenAPI or Swagger).
-4. Click **Generate Server**.
+2. Create a new **Project** and select your API specification.
+3. Attach composable plugins and click **Deploy Server**.
 
 [Follow the full quickstart guide →](https://docs.karada.ai/quickstart)
-
-## Core Features
-
-- **Auto-MCP Generation**: Instantly turn APIs into AI-ready tools using a high-performance Go engine.
-- **Unified MCP Gateway**: Multiplex dozens of MCP servers behind a single endpoint.
-- **Plugins Marketplace**: Extend your MCP servers with telemetry, tracing, and rate-limiting plugins.
-- **Instant Deployments**: Deploy generated servers or custom applications with one click.
-- **Project Management**: Organize your workspaces, monitor usage, and manage environments effortlessly.
-- **Team Collaboration**: Manage granular access control and collaborate securely.
 
 ## Local Development
 
@@ -34,11 +27,6 @@ If you want to contribute to these docs or preview them locally, install the Min
 
 ```bash
 npm i -g mint
-```
-
-Run the following command at the root of this documentation repository:
-
-```bash
 mint dev
 ```
 

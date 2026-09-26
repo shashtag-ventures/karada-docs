@@ -1,39 +1,37 @@
 ---
-title: "Auto-MCP: Convert OpenAPI & Swagger to Model Context Protocol"
+title: "Auto-MCP: Compile APIs into Model Context Protocol Servers"
 sidebarTitle: "Auto-MCP"
-description: "Automated engine to transform OpenAPI v3 and Swagger v2 specifications into high-performance Model Context Protocol (MCP) servers for AI agents."
+description: "Automated engine to transform APIs (OpenAPI & Postman) into high-performance Model Context Protocol (MCP) servers with continuous CI/CD spec sync."
 ---
 
-**Auto-MCP** is Karada's automated translation engine that converts traditional REST APIs into production-ready [Model Context Protocol (MCP)](https://modelcontextprotocol.io) servers.
+**Auto-MCP** is Karada's automated compilation engine that turns software APIs into production-ready [Model Context Protocol (MCP)](https://modelcontextprotocol.io) servers.
 
 > **What is Auto-MCP?**  
-> Auto-MCP is Karada.ai's automated pipeline that translates REST API specifications (OpenAPI v3 and Swagger v2) into fully-compliant Model Context Protocol servers. It maps API endpoints to native LLM tool definitions, translates JSON schemas into MCP input parameters, and proxies runtime authentication with zero handwritten integration code.
+> Auto-MCP is Karada.ai's automated pipeline that translates API specifications (OpenAPI and Postman) into fully-compliant Model Context Protocol servers. It maps API endpoints to native LLM tool definitions, translates JSON schemas into MCP input parameters, and proxies runtime authentication with zero handwritten integration code.
 
 ---
 
-## The Integration Gap
+## Continuous CI/CD Spec Sync
 
-AI models excel at natural language reasoning but cannot interact with internal databases, private microservices, or SaaS platforms without structured interfaces. Traditionally, engineering teams spend days writing custom wrappers to expose API endpoints as function-calling tools.
-
-Auto-MCP automates this entire lifecycle. Provide an OpenAPI or Swagger spec, and Karada generates a proxy server that exposes your endpoints as typed tools for AI assistants like Claude Desktop, Cursor, and ChatGPT.
+API schemas change constantly in modern engineering environments. Karada connects directly to your repository webhooks or raw specification URLs to **keep tools in sync with CI/CD on every API deploy and spec drift**. When an API endpoint changes, Karada re-compiles tool definitions with zero downtime and sub-100ms hot-reloads.
 
 ### How the Pipeline Works
 
 ```mermaid
 flowchart LR
-    A[OpenAPI / Swagger Spec] -->|Ingest| B(Karada Auto-MCP Engine)
-    B -->|Translates & Validates| C{MCP Server}
-    C <-->|Model Context Protocol| D[AI Client<br>Claude, Cursor, Agents]
-    C <-->|Authenticated REST Proxy| E[(Target API / Service)]
+    A[API Spec<br>OpenAPI / Postman] -->|Ingest & CI/CD Sync| B(Karada Go Engine)
+    B -->|Translates & Validates| C{MCP Server<br>Streamable HTTP}
+    C <-->|Model Context Protocol| D[AI Clients & Fleets<br>Cursor, Claude Code, Windsurf]
+    C <-->|Authenticated Proxy| E[(Target API / Microservice)]
     
     style B fill:#16A34A,stroke:#15803D,stroke-width:2px,color:#fff
     style C fill:#07C983,stroke:#15803D,stroke-width:2px,color:#fff
 ```
 
-1. **Specification Parsing**: Karada ingests your public URL or uploaded `openapi.json` / `swagger.yaml` document.
+1. **Specification Parsing**: Karada ingests your public URL, repository webhook, or uploaded API specification (OpenAPI or Postman).
 2. **Schema Translation**: Translates nested JSON Schema objects, query parameters, path variables, and request bodies into strict MCP input schemas.
 3. **Endpoint-to-Tool Mapping**: Every operation becomes an MCP `tool`. The tool description derives directly from your spec's `summary` and `description` fields, providing the model with exact semantic usage guidance.
-4. **Proxy Runtime**: Generates a self-contained runtime that proxies requests between the AI client and your target backend.
+4. **Proxy Runtime**: Generates a self-contained runtime supporting stateless Streamable HTTP transport and local stdio.
 
 ---
 
@@ -41,20 +39,21 @@ flowchart LR
 
 | Feature | Manual MCP Wrapper | Generic Community Proxies | Karada.ai Auto-MCP |
 | :--- | :--- | :--- | :--- |
-| **Engine Runtime** | Node.js / Python | TypeScript | Native Go Engine & Multi-runtime Output |
-| **Specification Support** | Manual per endpoint | Partial OpenAPI v3 | Complete OpenAPI v3 & Swagger v2 |
+| **Engine Runtime** | Node.js / Python | TypeScript | Native Go Engine (sub-5ms p99) |
+| **Specification Support** | Manual per endpoint | Partial OpenAPI v3 | Complete APIs (OpenAPI & Postman) |
+| **CI/CD Spec Sync** | Manual redeploy | None | Automated Webhook Drift Sync |
 | **Parameter Validation** | Manual boilerplate | Partial JSON schema | Strict native schema validation |
-| **Authentication Proxy** | Custom middleware | Static headers only | Dynamic `securitySchemes` injection |
+| **Authentication Proxy** | Custom middleware | Static headers only | Dynamic credential delegation |
 | **Multiplexing** | 1 process per server | Not supported | Integrated MCP Gateway support |
 | **Deployment Target** | Self-managed | Local stdio only | 1-Click Hosted Cloud or Local ZIP |
 
 ---
 
-## OpenAPI to MCP Schema Mapping
+## API to MCP Schema Mapping
 
-Auto-MCP maps standard OpenAPI constructs into MCP protocol equivalents:
+Auto-MCP maps standard API constructs into MCP protocol equivalents:
 
-| OpenAPI v3 Construct | MCP Server Equivalent | AI Assistant Role |
+| API Specification Construct | MCP Server Equivalent | AI Assistant Role |
 | :--- | :--- | :--- |
 | `operationId` / `path` | `tool.name` | Callable identifier invoked by the LLM |
 | `summary` / `description` | `tool.description` | Natural language instructions guiding tool selection |
@@ -66,7 +65,7 @@ Auto-MCP maps standard OpenAPI constructs into MCP protocol equivalents:
 
 ## Authentication Handling
 
-Auto-MCP automatically detects security definitions in your OpenAPI spec (API Keys, Bearer Tokens, Basic Auth).
+Auto-MCP automatically detects security definitions in your API spec (API Keys, Bearer Tokens, Basic Auth).
 
 When running a generated server locally, supply credentials as environment variables:
 
@@ -81,7 +80,13 @@ When deployed to Karada Cloud, set these credentials in your project's **Environ
 
 ## Connecting to AI Clients
 
-### Claude Desktop Configuration
+### Cursor IDE Configuration
+
+In Cursor, navigate to **Settings > Features > MCP** and add a new MCP server with:
+- **Type**: `sse` or `command`
+- **URL**: `https://gateway.karada.ai/mcp` (or your project's hosted endpoint)
+
+### Claude Code & Claude Desktop Configuration
 
 Edit your `claude_desktop_config.json`:
 - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
@@ -100,9 +105,3 @@ Edit your `claude_desktop_config.json`:
   }
 }
 ```
-
-### Cursor IDE Configuration
-
-In Cursor, navigate to **Settings > Features > MCP** and add a new MCP server with:
-- **Type**: `command`
-- **Command**: `node /absolute/path/to/karada-server/build/index.js`

@@ -1,16 +1,16 @@
 ---
-title: "Quickstart: Convert REST API to MCP Server in 3 Minutes"
+title: "Quickstart: Convert APIs to MCP Servers in 2 Minutes"
 sidebarTitle: "Quickstart"
-description: "Step-by-step tutorial to import an OpenAPI or Swagger spec, auto-generate a Go MCP server, and connect to Claude Desktop or Cursor."
+description: "Step-by-step tutorial to import an API spec, auto-generate an MCP server, attach plugins, and connect to Claude Code or Cursor."
 ---
 
-Welcome to Karada! This tutorial walks you through transforming any standard REST API into a production-ready Model Context Protocol (MCP) server that AI agents can use immediately.
+Welcome to Karada! This tutorial walks you through transforming any software API into a production-ready Model Context Protocol (MCP) server that AI agents and coding assistants can use immediately.
 
 **What you will accomplish**:
 1. Create a project in your team workspace
-2. Ingest an OpenAPI or Swagger specification with Auto-MCP
-3. Review auto-generated MCP tools and parameters
-4. Deploy the server to Karada Cloud or run locally
+2. Ingest an API specification (OpenAPI or Postman) with Auto-MCP
+3. Bolt on composable plugins (Sentry tracing, GA4 telemetry, rate limits)
+4. Deploy the server to Karada Managed Hosting or route via the Unified Gateway
 
 ---
 
@@ -18,67 +18,51 @@ Welcome to Karada! This tutorial walks you through transforming any standard RES
 
 Before beginning, make sure you have:
 - A [Karada.ai](https://karada.ai) account.
-- A valid OpenAPI (v3) or Swagger (v2) URL (e.g., `https://api.example.com/openapi.json`) or file. If you need a sample, test with the public [Petstore Swagger Spec](https://petstore.swagger.io/v2/swagger.json).
-- An MCP client (such as Claude Desktop or Cursor).
+- A valid API specification (OpenAPI or Postman URL or file). If you need a sample, test with the public [Petstore OpenAPI Spec](https://petstore.swagger.io/v2/swagger.json).
+- An MCP client or harness (such as Cursor, Claude Code, or Windsurf).
 
 ---
 
 ## Step 1: Create a Workspace & Project
 
-A project serves as the container for your MCP server deployments, plugins, and usage tracking.
+A project serves as the container for your MCP server deployments, CI/CD sync webhooks, plugins, and usage tracking.
 
 1. Log into your **Dashboard**.
 2. Select or create your **Team Workspace**.
 3. Click **Create Project** in the upper right.
-4. Select the **Auto-MCP** template.
+4. Select your ingestion source (**OpenAPI URL**, **File Upload**, or **Postman Collection**).
 5. Enter a project name (e.g., `Petstore AI Tools`).
 
 ---
 
-## Step 2: Configure Auto-MCP
+## Step 2: Configure Ingestion & CI/CD Sync
 
-Karada's Auto-MCP engine parses your API definition into native tool schemas.
+Karada's Go engine parses your API definition into native tool schemas and wires up continuous delivery.
 
 <Steps>
-  <Step title='Select Specification Standard'>
-    Choose between **OpenAPI v3** or **Swagger v2** based on your API schema format.
-  </Step>
   <Step title='Provide Specification URL or Upload'>
-    Paste the publicly accessible URL to your `openapi.json` / `swagger.yaml`, or upload the file directly from your disk.
+    Paste the URL to your `openapi.json` / `swagger.yaml` / Postman collection, or upload the file directly.
+  </Step>
+  <Step title='Configure CI/CD Sync Webhook'>
+    Optionally configure a webhook to keep your tools in sync with CI/CD on every API deploy and spec drift with zero downtime.
   </Step>
   <Step title='Review Detected Tools'>
-    Karada parses the routes into discrete MCP tools. Verify the detected tool names, parameter schemas, and descriptions. These define how LLMs will decide when and how to call your API.
+    Karada compiles routes into discrete MCP tools. Verify the detected tool names, parameter schemas, and descriptions.
   </Step>
 </Steps>
 
 ---
 
-## Step 3: Generate & Deploy
+## Step 3: Attach Plugins & Deploy
 
 With tools confirmed:
 
-1. Click **Generate Server**.
-2. Karada's Go engine generates the complete MCP server structure.
+1. **Attach Composable Plugins**: Toggle 1-click plugins for Sentry error tracing, Google Analytics/GA4 telemetry, token-bucket rate limits, or AI firewalls.
+2. Click **Deploy Server**.
 3. Select your deployment target:
-   - **Deploy to Karada**: Instantly provision an isolated, managed container with a secure HTTPS/SSE endpoint.
-   - **Download as ZIP**: Run and inspect the server on your local machine or private VPC.
-
-### Running Locally (Downloaded Server)
-
-If you download the standalone build to execute on your machine:
-
-```bash
-# Unzip the downloaded bundle
-unzip karada-mcp-server.zip
-cd karada-mcp-server
-
-# Install dependencies and build
-npm install
-npm run build
-
-# Start the generated MCP server
-npm start
-```
+   - **Karada Managed Hosting**: Provision a high-throughput stateless Streamable HTTP runtime with sub-5ms latency and automated TLS.
+   - **Unified Gateway**: Route through `gateway.karada.ai/mcp` to use alongside other team and marketplace tools.
+   - **Download as Standalone**: Run and inspect the server locally or inside a private VPC.
 
 ---
 
@@ -86,5 +70,6 @@ npm start
 
 Once your MCP server is running, connect it to your AI client to start calling tools in conversations:
 
-👉 **[Connect Claude Desktop & Cursor in the Auto-MCP Deep Dive](/features/auto-mcp)**  
-👉 **[Extend your server with Observability & Rate Limiting in Plugins](/features/plugins)**
+👉 **[Connect Claude Code, Cursor, & Windsurf in the Auto-MCP Deep Dive](/features/auto-mcp)**  
+👉 **[Configure Plugins & Middleware in the Plugins Guide](/features/plugins)**  
+👉 **[Multiplex all tools in the Unified Gateway](/features/gateway)**

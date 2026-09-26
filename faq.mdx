@@ -1,42 +1,46 @@
 ---
-title: "Model Context Protocol (MCP) & Auto-MCP FAQ"
+title: "Model Context Protocol (MCP) & Karada Platform FAQ"
 sidebarTitle: "FAQ"
-description: "Frequently asked questions on converting OpenAPI to MCP, Claude Desktop and Cursor integration, authentication proxying, and Karada.ai platform architecture."
+description: "Frequently asked questions on compiling APIs to MCP, Cursor and Claude Code integration, composable plugins, CI/CD spec sync, and Karada.ai platform architecture."
 ---
 
 ## Frequently Asked Questions
 
 <AccordionGroup>
   <Accordion title="What is the Model Context Protocol (MCP)?">
-    The **Model Context Protocol (MCP)** is an open standard created by Anthropic that standardizes how AI applications (such as Claude Desktop, Cursor, and custom autonomous agents) connect to external tools, databases, and APIs. Karada.ai automatically generates production-ready MCP-compliant servers directly from your existing OpenAPI and Swagger definitions with zero custom code.
+    The **Model Context Protocol (MCP)** is an open standard that standardizes how AI applications (such as Claude Code, Cursor, Windsurf, and autonomous agent fleets) connect to external tools, databases, and APIs. Karada.ai provides the complete infrastructure platform to auto-generate, productionize, host, and distribute MCP servers directly from software APIs.
   </Accordion>
 
   <Accordion title="What API specification formats are supported by Karada Auto-MCP?">
-    Karada supports both **OpenAPI v3** (`.json` and `.yaml`) and **Swagger v2** (`.json` and `.yaml`) specifications. You can supply a live URL pointing to your API definition endpoint or upload raw specification files directly in the dashboard.
+    Karada supports **OpenAPI v3** (`.json` and `.yaml`), **Swagger v2** (`.json` and `.yaml`), and **Postman Collections**. You can supply a live URL pointing to your API definition, configure a CI/CD webhook, or upload raw specification files directly in the dashboard.
+  </Accordion>
+
+  <Accordion title="How does Karada keep tools in sync with API changes?">
+    Karada keeps tools in sync with CI/CD on every API deploy and spec drift. When your API specification updates in your repository or endpoint, webhooks trigger automatic zero-downtime hot-reloads in under 100ms.
   </Accordion>
 
   <Accordion title="How does Karada differ from writing manual MCP servers with Python or TypeScript SDKs?">
-    Writing manual MCP servers requires engineering teams to handwrite tool schemas, maintain proxy handlers, write custom parameter validation, and update code whenever API endpoints change. Karada's automated Go engine parses your existing OpenAPI specification, automatically derives tool names and parameter validations, dynamically injects runtime authentication headers, and provides 1-click cloud hosting and gateway multiplexing.
+    Writing manual MCP servers requires engineering teams to handwrite tool schemas, maintain container scaling, build custom rate limiting and tracing, and fix brittle code whenever API endpoints change. Karada's compiled Go engine turns APIs into high-throughput Streamable HTTP MCP servers (sub-5ms p99) with 1-click composable plugins (Sentry, GA4, rate limits) and unified gateway distribution.
   </Accordion>
 
   <Accordion title="Do I need to know how to code to use Auto-MCP?">
-    **No.** Karada parses your API specification and builds the entire MCP server automatically. Non-technical operators and product managers can supply an OpenAPI URL, verify the extracted tools, and deploy an active endpoint in under three minutes.
+    **No.** Karada parses your API specification and builds the entire MCP server automatically. Non-technical operators and product managers can supply an API URL, verify the extracted tools, and deploy an active endpoint in under two minutes.
   </Accordion>
 
   <Accordion title="Can I use Karada with private or internal microservices behind a VPC?">
-    **Yes.** When generating an Auto-MCP server, you can choose **Download as ZIP** to run the self-contained server binary inside your private VPC, local machine, or internal Docker swarm. Your production API traffic stays entirely within your private infrastructure.
+    **Yes.** When compiling an Auto-MCP server, you can choose **Download as Standalone** to run the self-contained server binary inside your private VPC, local machine, or internal container fleet. Your production API traffic stays entirely within your private infrastructure.
   </Accordion>
 
-  <Accordion title="How does Karada proxy authentication without leaking API keys to the AI model?">
-    Karada parses the `securitySchemes` defined in your OpenAPI specification (such as Bearer tokens, API keys, and Basic auth). Secrets are stored in an encrypted vault (AES-256-GCM) and injected into outbound HTTP requests at the proxy edge. The AI client and LLM only receive the tool parameters—they never see your production API keys in their context window.
+  <Accordion title="How does Karada handle authentication without leaking API keys to the AI model?">
+    Karada parses authentication requirements defined in your API specification (such as Bearer tokens, API keys, and OAuth). Credentials are encrypted at rest using AES-256-GCM and injected into outbound HTTP requests at the runtime proxy edge. The AI client only receives tool parameters—they never see your production API keys in their context window.
   </Accordion>
 
-  <Accordion title="What is the Karada MCP Gateway?">
-    The MCP Gateway is a unified multiplexer that combines multiple upstream MCP servers behind a single Streamable HTTP endpoint. Instead of adding 10 different server configurations to Claude Desktop or Cursor, you connect one Gateway URL that manages tool routing, prevents namespace collisions, and injects credentials.
+  <Accordion title="What is the Karada Unified Gateway?">
+    The Unified Gateway serves a dual audience: for developers and enterprise teams, it lets you configure tools once on Karada and use them across multiple harnesses (Cursor, Claude Code, Windsurf) while enforcing organizational tool standards; for MCP creators and API teams, it acts as a direct distribution channel into developers and agents active environments.
   </Accordion>
 
-  <Accordion title="Can I extend my MCP server with custom plugins?">
-    **Yes.** The **Plugins Marketplace** provides modular extensions for telemetry, distributed request tracing, security headers, and rate limiting. You can also author and publish custom plugins using the standard Karada plugin manifest.
+  <Accordion title="Can I extend my MCP server with composable plugins?">
+    **Yes.** Karada provides 1-click composable plugins for Sentry error tracing, Google Analytics/GA4 telemetry, Slack alert webhooks, token-bucket rate limiting, and AI firewalls without modifying your server code. You can also author and publish custom plugins using the standard Karada plugin manifest.
   </Accordion>
 </AccordionGroup>
 
@@ -45,23 +49,23 @@ description: "Frequently asked questions on converting OpenAPI to MCP, Claude De
 ## Troubleshooting Guide
 
 <AccordionGroup>
-  <Accordion title="My MCP server will not connect to Claude Desktop">
+  <Accordion title="My MCP server will not connect to Claude Desktop or Cursor">
     Review the following diagnostic checklist:
-    1. Confirm the path in `claude_desktop_config.json` points to the exact **absolute path** of your server entrypoint.
-    2. Confirm you ran `npm install` and `npm run build` in the downloaded project folder.
-    3. Completely restart the Claude Desktop application to reload configuration files.
-    4. Verify required environment variables (e.g. `API_KEY`) are properly declared in the `env` object.
+    1. Confirm your endpoint URL or path in your configuration is exact.
+    2. If using local standalone builds, confirm you ran `npm install` and `npm run build`.
+    3. Restart your AI client (Cursor / Claude) to refresh cached server connections.
+    4. Verify required credentials (e.g., `API_KEY`) are properly declared in your environment settings.
   </Accordion>
 
   <Accordion title="The generated server throws 'Cannot find module' on startup">
-    Run `npm install` within the unzipped server directory to ensure all dependencies and TypeScript build artifacts are correctly resolved.
+    Run `npm install` within the unzipped server directory to ensure all dependencies and build artifacts are correctly resolved.
   </Accordion>
 
-  <Accordion title="OpenAPI specification returns a parsing error in Karada">
+  <Accordion title="API specification returns a parsing error in Karada">
     Check that:
     - The URL returns raw JSON or YAML (not an HTML documentation splash page).
     - The URL is publicly reachable by Karada's validation parser.
-    - All schema `$ref` pointers resolve correctly. Validate the spec using [editor.swagger.io](https://editor.swagger.io).
+    - All schema `$ref` pointers resolve correctly.
   </Accordion>
 
   <Accordion title="My deployment build is failing in the dashboard">

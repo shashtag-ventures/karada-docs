@@ -1,24 +1,34 @@
 ---
-title: "MCP Plugins & Extensions: Extend Your Servers"
+title: "1-Click Composable Plugins & Middleware"
 sidebarTitle: "Plugins"
-description: "Discover, install, and publish plugins for Karada MCP servers to add analytics, rate limiting, security headers, and request tracing."
+description: "Discover, install, and publish composable plugins for Karada MCP servers to add Sentry tracing, GA4 telemetry, Slack alert webhooks, rate limiting, and AI firewalls."
 ---
 
-The **Plugins Marketplace** allows you to discover, install, and configure modular plugins that extend the capabilities of your Karada MCP servers. Plugins inject production-grade middleware into your generated servers—such as real-time analytics, distributed request tracing, security headers, and custom rate limiting—with zero boilerplate code.
+The **Plugins & Middleware Layer** allows you to bolt on production-grade infrastructure to your MCP servers in one click. Plugins inject composable middleware—such as Sentry error tracing, Google Analytics/GA4 telemetry, Slack alert webhooks, token-bucket rate limiting, and AI firewalls—without modifying a single line of server or API code.
 
 > **What are Karada Plugins?**  
-> Karada Plugins are modular extensions that augment your Auto-MCP servers and gateway proxies. They run alongside your server runtime to provide observability, access control, and runtime transformations without requiring manual code changes to your underlying API or MCP tools.
+> Karada Plugins are modular middleware extensions that augment Auto-MCP servers and external linked Streamable HTTP runtimes. They provide runtime observability, rate limiting, and prompt guardrails with zero code refactoring.
 
 ---
 
-## Browsing Available Plugins
+## Verified Ecosystem Plugins
 
-Navigate to the **Plugins** tab in your Project Dashboard to explore verified plugins. Each plugin card provides:
+Karada ships with verified 1-click plugins built for high-throughput agent infrastructure:
 
-- **Display Name** and package identifier (e.g., `karada-plugin-analytics`)
-- **Plugin Overview**: A summary of its functionality and supported MCP runtime hooks
-- **Status Badge**: Clear indication whether the plugin is **Available** or **Installed**
-- **Documentation Link**: Configuration options and schema details
+<CardGroup cols={2}>
+  <Card title='Sentry Error Tracing' icon='bug'>
+    Real-time tool execution error logging, JSON-RPC stack traces, and unhandled exception alerts.
+  </Card>
+  <Card title='Google Analytics (GA4)' icon='chart-line'>
+    Track tool invocation frequency, latency percentiles, and active client harness telemetry.
+  </Card>
+  <Card title='Slack Alert Webhooks' icon='slack'>
+    Receive automated notifications in dedicated Slack channels when tool errors spike or rate limits are reached.
+  </Card>
+  <Card title='Token-Bucket Rate Limiting' icon='gauge'>
+    Enforce per-client or per-IP request limits to protect downstream upstream APIs from runaway agent loops.
+  </Card>
+</CardGroup>
 
 ---
 
@@ -32,10 +42,10 @@ Navigate to the **Plugins** tab in your Project Dashboard to explore verified pl
     Click **Install Plugin** on the desired plugin card. A secure configuration modal will open.
   </Step>
   <Step title='Configure Parameters'>
-    Provide the required configuration values. For example, an analytics plugin requires a tracking ID, while a rate-limiting plugin accepts requests-per-minute thresholds. Fields marked with an asterisk (*) are required.
+    Provide the required configuration values (e.g., Sentry DSN, GA4 Measurement ID, or rate limit thresholds).
   </Step>
   <Step title='Save & Activate'>
-    Click **Save & Install**. Karada immediately applies the plugin to your project environment and restarts your MCP runtime with the new middleware active.
+    Click **Save & Install**. Karada immediately applies the plugin to your project environment with zero downtime.
   </Step>
 </Steps>
 
@@ -45,9 +55,9 @@ Navigate to the **Plugins** tab in your Project Dashboard to explore verified pl
 
 Active plugins appear in your project's **Active Plugins** view:
 
-- **Configure**: Update environment settings, secrets, or thresholds without redeploying from scratch.
-- **Toggle State**: Temporarily disable a plugin during debugging without losing your saved configuration.
-- **Uninstall**: Safely remove the plugin from your server runtime.
+- **Configure**: Update environment settings, secrets, or thresholds without redeploying.
+- **Toggle State**: Temporarily disable a plugin during debugging without losing saved configuration.
+- **Uninstall**: Safely remove the middleware from your server runtime.
 
 ---
 
@@ -62,7 +72,7 @@ The manifest describes your plugin's metadata, repository source, and runtime co
 | Field | Required | Description |
 | :--- | :---: | :--- |
 | **Display Name** | ✅ | Human-readable title displayed in the marketplace |
-| **Package Identifier** | ✅ | Unique namespace string (e.g., `karada-plugin-rate-limiter`) |
+| **Package Identifier** | ✅ | Unique namespace string (e.g., `karada-plugin-sentry`) |
 | **Description** | ✅ | Concise explanation of the plugin's functionality |
 | **Source URL** | ✅ | Public or private Git repository hosting the plugin source |
 | **Version** | ✅ | Semantic version string (e.g., `1.0.0`) |
@@ -76,30 +86,20 @@ The configuration schema drives the dynamic form rendered during installation:
 ```json
 [
   {
-    "key": "tracking_id",
-    "label": "Tracking ID",
+    "key": "sentry_dsn",
+    "label": "Sentry DSN",
     "type": "string",
     "required": true,
-    "placeholder": "UA-XXXXXXX-X",
-    "description": "Your telemetry or analytics tracking identifier."
-  },
-  {
-    "key": "api_secret",
-    "label": "API Secret Key",
-    "type": "password",
-    "required": true,
-    "secret": true,
-    "description": "API secret token passed securely to the plugin runtime."
+    "placeholder": "https://examplePublicKey@o0.ingest.sentry.io/0",
+    "description": "Your Sentry Data Source Name for error reporting."
   },
   {
     "key": "rate_limit_rpm",
     "label": "Requests Per Minute",
     "type": "number",
     "required": false,
-    "default": 60,
-    "description": "Maximum requests permitted per minute per client."
+    "default": 100,
+    "description": "Maximum tool executions permitted per minute."
   }
 ]
 ```
-
-Supported schema data types include `string`, `password`, `number`, and `boolean`. Fields marked with `"secret": true` are encrypted at rest and masked in the UI to protect production credentials.
