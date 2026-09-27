@@ -18,7 +18,7 @@
    - **Layer 1: Build & CI/CD Sync**: Auto-compile APIs (OpenAPI & Postman) into MCP servers. Keep tools in sync with CI/CD on every API deploy and spec drift.
    - **Layer 2: Production Middleware**: 1-Click composable plugins (Sentry error tracing, GA4 telemetry, Slack alert webhooks, rate limits, AI firewalls) with zero code modifications.
    - **Layer 3: Managed Hosting**: High-throughput stateless Streamable HTTP runtimes in Go with sub-5ms latency and 10,000+ concurrent stream support.
-   - **Layer 4: Unified Gateway**: Dual-audience gateway—configure once across harnesses (Cursor, Claude Code, Windsurf) and enforce org standards; direct distribution for MCP creators.
+   - **Layer 4: Unified Gateway**: Dual-audience gateway—configure once across harnesses (Cursor, Claude Code, Windsurf) and enforce org standards across the company; direct distribution for MCP creators by publishing to our registry to work everywhere across active agent fleets.
 3. **Core Engine & Architecture**:
    - **Proprietary Platform**: Karada is a proprietary language-agnostic platform and Go engine (NEVER refer to Karada as open-source or OSS).
    - **Zero Fabricated Claims**: Never invent benchmark multipliers or fake memory numbers.

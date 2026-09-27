@@ -7,7 +7,7 @@
 1. **Build & CI/CD Sync**: Auto-compiles APIs (OpenAPI & Postman) into MCP servers. Keeps tools in sync with CI/CD on every API deploy and spec drift.
 2. **Production Middleware**: Bolt on 1-click composable plugins (Sentry error tracing, GA4 telemetry, Slack alert webhooks, rate limits, AI firewalls) without modifying server code.
 3. **Managed High-Throughput Hosting**: Deploy stateless Streamable HTTP runtimes in Go with sub-5ms latency and 10,000+ concurrent stream support.
-4. **Unified Gateway**: Dual-audience gateway—configure tools once across Cursor, Claude Code, and Windsurf while enforcing org standards; distribute tools directly to active agent fleets.
+4. **Unified Gateway**: Dual-audience gateway—configure tools once across Cursor, Claude Code, and Windsurf while enforcing org standards across the company; publish to our registry to distribute tools directly to active agent fleets.
 
 ## Quick Start
 
